@@ -52,7 +52,7 @@ void InitVar(){
 	}
 }
 
-
+second
 
 
 bool IsNeighbor(int ida, int idb){  // return whether given 2 nodes are neigbor each other
