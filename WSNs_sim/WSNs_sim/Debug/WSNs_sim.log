@@ -1,0 +1,6 @@
+﻿  main.cpp
+C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\utility(103): warning C4244: '初期化中' : 'const double' から 'int' への変換です。データが失われる可能性があります。
+          main.cpp(59) : コンパイルされたクラスの テンプレート のインスタンス化 'std::pair<int,int>::pair<double,double,void>(const std::pair<double,double> &)' の参照を確認してください
+          main.cpp(59) : コンパイルされたクラスの テンプレート のインスタンス化 'std::pair<int,int>::pair<double,double,void>(const std::pair<double,double> &)' の参照を確認してください
+d:\dropbox\lab\ws2016\wsns_sim\wsns_sim\main.cpp(380): warning C4715: 'GetNextDst' : 値を返さないコントロール パスがあります。
+  WSNs_sim.vcxproj -> D:\Dropbox\Lab\WS2016\WSNs_sim\WSNs_sim\Debug\WSNs_sim.exe
