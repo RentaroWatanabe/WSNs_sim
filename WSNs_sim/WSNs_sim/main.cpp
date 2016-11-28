@@ -55,6 +55,7 @@ void InitVar(){
 second
 branch text
 
+
 bool IsNeighbor(int ida, int idb){  // return whether given 2 nodes are neigbor each other
 	pair<int, int> loca = node[ida].location;
 	pair<int, int> locb = node[idb].location;
