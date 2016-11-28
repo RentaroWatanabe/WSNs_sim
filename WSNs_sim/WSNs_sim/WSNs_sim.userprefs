@@ -1,9 +1,26 @@
 ﻿<Properties>
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Base.cpp">
     <Files>
       <File FileName="Base.h" Line="14" Column="1" />
       <File FileName="Node.h" Line="11" Column="1" />
       <File FileName="Base.cpp" Line="12" Column="12" NotebookId="1" />
+=======
+<<<<<<< HEAD
+  <MonoDevelop.Ide.Workbench ActiveDocument="main.h">
+    <Files>
+      <File FileName="Base.h" Line="1" Column="3" />
+      <File FileName="main.h" Line="47" Column="34" />
+      <File FileName="Node.h" Line="16" Column="1" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Base.h">
+    <Files>
+      <File FileName="Base.h" Line="7" Column="3" />
+      <File FileName="main.h" Line="1" Column="1" />
+      <File FileName="Node.h" Line="11" Column="1" />
+>>>>>>> 1c589b6ae7a8be318faf5543aa3ebef93b7fddce
+      <File FileName="Base.cpp" Line="1" Column="1" NotebookId="1" />
+>>>>>>> 55490b9066fbba9931e8c1a60be38692022b319e
       <File FileName="main.cpp" Line="1" Column="1" NotebookId="1" />
       <File FileName="Node.cpp" Line="15" Column="24" NotebookId="1" />
     </Files>
