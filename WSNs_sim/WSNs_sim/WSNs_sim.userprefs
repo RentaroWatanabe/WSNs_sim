@@ -1,7 +1,7 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Node.cpp">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Base.h">
     <Files>
-      <File FileName="Base.h" Line="1" Column="1" />
+      <File FileName="Base.h" Line="7" Column="3" />
       <File FileName="main.h" Line="1" Column="1" />
       <File FileName="Node.h" Line="11" Column="1" />
       <File FileName="Base.cpp" Line="1" Column="1" NotebookId="1" />

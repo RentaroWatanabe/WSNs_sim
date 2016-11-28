@@ -6,6 +6,8 @@
 //  Copyright © 2016年 Rentaro Watanabe. All rights reserved.
 //
 
+test
+
 #ifndef main_h
 #define main_h
 
