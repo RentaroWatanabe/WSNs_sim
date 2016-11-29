@@ -38,12 +38,12 @@ using namespace std;
 /*************************************************
  Experimental Parameters
  *************************************************/
-#define N 200       // Number of Nodes
+#define N 100        // Number of Nodes
 #define ROUND 10000     // Number of Total Rounds
 #define MAX_E 2.0   // Maximum Energy of nodes
 #define AREA_W 100.0  // Area Width
 #define AREA_D 100.0  // Area Depth
-#define R_C 20.0   // Communication Range (Radius)
+int R_C;   // Communication Range (Radius)
 #define R_S 10.0   // Sensing Range (Radius)
 #define L 4000     // Bit-long of Message
 #define BS 1    // Number of Base Station
@@ -52,12 +52,15 @@ using namespace std;
                     //222 means FIXED
 int ALG;    // 123:Random alg 456:Shortest Path alg
                     // 789:Improved Random alg
-int FNC;    // Probability Functioin
+			// 0:Possible Shortest Path alg
+			// 1:More Improved Random alg
+#define ALG_NUM 2
+#define FNC 001    // Probability Functioin
                         // 001:i, 002:log(i+1), 003:sqrt(i), 004:tmp
 double CO;  // Set Coefficient Number
                   // Dont Set 0 !!
-#define RUN 200    // Experimental Running Times
-#define DL 0.2  // Deadline Rounds of Single Running
+#define RUN 100    // Experimental Running Times
+double DL;  // Deadline Rounds of Single Running
 int INTENCIVE;  // Number of Rounds Messages Generate at Fixed Location (where TRGPTN = 222)
 int NO;		// Input Running Number from "parameter.txt"
 
@@ -65,11 +68,6 @@ int NO;		// Input Running Number from "parameter.txt"
 #define E_ELEC 5.0e-8
 #define EPS_FS 1.0e-11
 #define EPS_MP 1.3e-15
-
-
-// Input Variable
-//int ALG;
-//int FNC;
 
 
 // Debugging Variable
@@ -107,8 +105,8 @@ double P[N+BS-1][3];
 unsigned int Seed;  // For Debug
 bool Term;  // Termination Flag
 int DeadCounta;
-int Rpt;
-int OP_R, OP_TMSG, OP_LMSG, OP_FWD;
+int Rpt = 0;
+int OP_R[ALG_NUM], OP_TMSG[ALG_NUM], OP_LMSG[ALG_NUM], OP_FWD[ALG_NUM];
 // pair<double, double> Trg_Point;
 int Fixed_Sender;
 int Trg_Count;  // Times Messages Occured at Same Location

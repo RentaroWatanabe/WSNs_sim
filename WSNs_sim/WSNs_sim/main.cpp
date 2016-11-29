@@ -139,7 +139,8 @@ void SetMaxDst(){
 
 
 void SetProbablity(){
-	if (ALG == 123 || ALG == 789){    // Random alg
+	if (ALG == 123 || ALG == 789 || ALG == 0 || ALG == 1
+		){    // Random alg
 		if (FNC == 001){  // Expected Value : CO*i
 			for (int i = BS + 1; i<=MaxDst; i++){
 				P[i][0] = GetRandom(1 / CO, (CO + 1) / (2 * CO));
@@ -349,20 +350,63 @@ int GetNextDst(int sender){
 		if (!exist_up && !exist_same && !exist_low)
 			return -1;
 
-		if (ALG == 456){
+		/*if (ALG == 456){
 			p_low = 0;
 			p_same = 0;
 			p_up = 1 * exist_up;
+			}*/
+
+		//else if (ALG == 789){
+		p_low = P[tmp_dst][2] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_low;
+		p_same = P[tmp_dst][1] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_same;
+		p_up = (1 - p_low - p_same) * exist_up;
+		//}
+
+
+		//when upper layer nodes are all dead, alg 0 selects other node
+		if (ALG == 0 &&
+			!exist_up &&
+			(exist_same || exist_low)){
+			if (exist_same)
+				return can_s[rand() % can_s.size()];
+			else return can_l[rand() % can_l.size()];
 		}
-		else if (ALG == 789){
-			p_low = P[tmp_dst][2] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_low;
-			p_same = P[tmp_dst][1] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_same;
-			p_up = (1 - p_low - p_same) * exist_up;
-		}
+
 
 		double tmp_p = (double)rand() / RAND_MAX;
 
 
+		//TODO : Receiver select part for 1
+		if (ALG == 1){
+			double maxE = 0;
+			int tmp_receiver = -1;
+
+			if (tmp_p < p_up){
+				for (i = can_u.begin(); i != can_u.end(); i++){
+					if (node[*i].resE > maxE)
+						tmp_receiver = *i;
+				}
+			}
+			else
+				if (tmp_p < p_up + p_same){
+					for (i = can_s.begin(); i != can_s.end(); i++){
+						if (node[*i].resE > maxE)
+							tmp_receiver = *i;
+					}
+				}
+
+				else if (tmp_p < p_up + p_same + p_low){
+					for (i = can_l .begin(); i != can_l.end(); i++){
+						if (node[*i].resE > maxE)
+							tmp_receiver = *i;
+					}
+				}
+				else return -1;
+				return tmp_receiver;
+		}
+
+
+		//Receiver select part for 456,0,789
 		if (tmp_p < p_up){
 			return can_u[rand() % can_u.size()];
 		}
@@ -507,15 +551,10 @@ int main() {
 	if (DbgMode == 1)
 		cout << "Simutation Start." << endl;
 
-	while (infile >> NO >> ALG >> FNC >> CO >> INTENCIVE)
+	while (infile >> NO >> R_C >> DL >> CO >> INTENCIVE)
 	{
-		OP_R = 0;
-		OP_TMSG = 0;
-		OP_LMSG = 0;
-		Rpt = 0;
 
-
-		if (DbgMode == 2){
+		/*if (DbgMode == 2){
 			outfile << "************************************" << endl;
 			outfile << "Sequence Num :" << NO << endl;
 			outfile << "#node : " << N << endl;
@@ -525,57 +564,67 @@ int main() {
 			outfile << "Intencive : " << INTENCIVE << endl;
 			outfile << "************************************" << endl;
 			outfile << endl;
-		}
+		}*/
 
+		ALG = 0;
 		while (Rpt < RUN){
 
-			Rpt++;
+			if (ALG == 0){
+				if (DbgMode == 1)
+					cout << Rpt << "th Running" << endl;
+
+				if (DbgMode == 2)
+					outfile << "***** " << Rpt << "(/100)th Running *****" << endl;
+
+				InitVar();   // Initiation variables
+				if (DbgMode == 1)
+					cout << "Variable Initiation Completed." << endl;
+
+
+				// INITIATION of Nodes and Base Station and CREATION Graph
+				for (int i = 0; i < (N + BS); i++)
+					InitNode(i);
+				if (DbgMode == 1)
+					cout << "Node Initiation Completed." << endl;
+
+				CreateGraph();
+				if (DbgMode == 1)
+					cout << "New Graph Created." << endl;
+
+				SetDst(0, 0);
+				SetMaxDst();
+				if (DbgMode == 1)
+					cout << "Depth of Each Node Caliculated." << endl;
+			}
+			else {
+				for (int i = 0; i < (N + BS); i++){
+					node[i].resE = MAX_E;
+					Dead[i] = false;
+				}
+				Fixed_Sender = -1;
+				Trg_Count = 1;
+			}
+
 			Term = false;
 			CountR = 0;
-
-			if (DbgMode == 1)
-				cout << Rpt << "th Running" << endl;
-
-			if (DbgMode == 2)
-				outfile << "***** " << Rpt << "(/100)th Running *****" << endl;
-
-			InitVar();   // Initiation variables
-			if (DbgMode == 1)
-				cout << "Variable Initiation Completed." << endl;
-
-
-			// INITIATION of Nodes and Base Station and CREATION Graph
-			for (int i = 0; i < (N + BS); i++)
-				InitNode(i);
-			if (DbgMode == 1)
-				cout << "Node Initiation Completed." << endl;
-
-			CreateGraph();
-			if (DbgMode == 1)
-				cout << "New Graph Created." << endl;
-
-			SetDst(0, 0);
-			SetMaxDst();
-			if (DbgMode == 1)
-				cout << "Depth of Each Node Caliculated." << endl;
 
 			SetProbablity();
 			if (DbgMode == 1)
 				cout << "Forwarding Probabilities Have Been Set." << endl;
 
-			if (DbgMode == 2){	//output dependent relationship
-				outfile << endl;
-				outfile << " --- Dependent Relationship --- " << endl;
-					for (int i = 0; i < N + BS; i++){
-						outfile << i << "(" << node[i].dst <<") :";
-						for (auto itr = node[i].neighbor.begin(); itr != node[i].neighbor.end(); itr++) {
-							outfile << " " << *itr;
-						}
-						outfile << endl;
-					}
-				outfile << " ------------------------------ " << endl;
-				outfile << endl;
-			}
+			//if (DbgMode == 2){	//output dependent relationship
+			//	outfile << endl;
+			//	outfile << " --- Dependent Relationship --- " << endl;
+			//		for (int i = 0; i < N + BS; i++){
+			//			outfile << i << "(" << node[i].dst <<") :";
+			//			for (auto itr = node[i].neighbor.begin(); itr != node[i].neighbor.end(); itr++) {
+			//				outfile << " " << *itr;
+			//			}
+			//			outfile << endl;
+			//		}
+			//	outfile << " ------------------------------ " << endl;
+			//	outfile << endl;
+			//}
 
 
 
@@ -650,7 +699,7 @@ int main() {
 				}
 
 				if (
-					CountR > 100 &&
+					//CountR > 100 &&
 					//                (double)DeadCounta/(double)(N+BS) > 0.7
 					(double)Suc_Fwd / (LostTrg*100 + Suc_Fwd) < DL
 					)
@@ -665,15 +714,19 @@ int main() {
 				}
 			}
 
-			OP_R += CountR;
-			OP_TMSG += TotalMsg;
-			OP_LMSG += LostTrg;
-			OP_FWD += Suc_Fwd;
+			OP_R[ALG] += CountR - 1;
+			OP_TMSG[ALG] += TotalMsg;
+			OP_LMSG[ALG] += LostTrg;
+			OP_FWD[ALG] += Suc_Fwd;
 
 			CountR = 0;
 			TotalMsg = 0;
 			LostTrg = 0;
 			Suc_Fwd = 0;
+
+			if (ALG == ALG_NUM -1)
+				Rpt++;
+			ALG = (ALG + 1) % ALG_NUM;
 
 		}   // End Main Loop
 
@@ -685,16 +738,24 @@ int main() {
 		//cout << "\n";
 
 
-		cout << endl;
-		cout << "----- Total Result -----" << endl;
-		cout << "Algorithm ID : " << ALG << endl;
-		cout << "Input Function ID : " << FNC << endl;
-		cout << "Average Round : " << (double)OP_R / RUN << endl;
-		cout << "Average Forwarding Msg : " << (double)OP_TMSG / RUN << endl;
-		cout << "Average Lost Msg : " << (double)OP_LMSG / RUN << endl;
-		cout << endl;
+		for (int i = 0; i < ALG_NUM; i++){
+			cout << endl;
+			cout << "----- Total Result -----" << endl;
+			cout << "Algorithm ID : " << i << endl;
+			cout << "Average Round : " << (double)OP_R[i] / RUN << endl;
+			cout << "Average Forwarding Msg : " << (double)OP_TMSG[i] / RUN << endl;
+			cout << "Average Lost Msg : " << (double)OP_LMSG[i] / RUN << endl;
+			cout << endl;
 
-		outfile << NO << " " << (double)OP_R / RUN << " " << (double)OP_TMSG / RUN << endl;
+			outfile << NO << " " << (double)OP_R[i] / RUN << " " << (double)OP_TMSG[i] / RUN << endl;
+
+			OP_R[i] = 0;
+			OP_TMSG[i] = 0;
+			OP_LMSG[i] = 0;
+		}
+
+		Rpt = 0;
+
 	} // End Repeat
 	outfile << endl;
 	outfile << Seed << endl;
