@@ -57,7 +57,7 @@ int FNC;    // Probability Functioin
 double CO;  // Set Coefficient Number
                   // Dont Set 0 !!
 #define RUN 200    // Experimental Running Times
-#define DL 0.3  // Deadline Rounds of Single Running
+#define DL 0.2  // Deadline Rounds of Single Running
 int INTENCIVE;  // Number of Rounds Messages Generate at Fixed Location (where TRGPTN = 222)
 int NO;		// Input Running Number from "parameter.txt"
 

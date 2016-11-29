@@ -277,3 +277,10 @@ __pycache__/
 # Original - userself setting
 presentation/
 WSNs_sim/WSNs_sim/result.txt
+WSNs_sim/WSNs_sim/Debug/WSNs_sim.log
+WSNs_sim/WSNs_sim/Debug/WSNs_sim.pdb
+WSNs_sim/WSNs_sim/Debug/vc120.idb
+WSNs_sim/WSNs_sim/Debug/vc120.pdb
+WSNs_sim/WSNs_sim/WSNs_sim.userprefs
+WSNs_sim/WSNs_sim/Debug/WSNs_sim.ilk
+WSNs_sim/WSNs_sim/Debug/WSNs_sim.exe
