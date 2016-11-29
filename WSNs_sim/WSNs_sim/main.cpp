@@ -17,11 +17,11 @@ void InitNode(int i){
 	node[i].id = i;
 
 	// Set Location
-	
+
 
 	if (i < BS){
-		node[i].location.first = AREA_W/2.0;
-		node[i].location.second = AREA_D/2.0;
+		node[i].location.first = AREA_W / 2.0;
+		node[i].location.second = AREA_D / 2.0;
 		Location[i] = node[i].location;
 		node[i].isbs = 1;
 		node[i].dst = 0;
@@ -142,7 +142,7 @@ void SetProbablity(){
 	if (ALG == 3 || ALG == 2 || ALG == 0 || ALG == 1
 		){    // Random alg
 		if (FNC == 001){  // Expected Value : CO*i
-			for (int i = BS + 1; i<=MaxDst; i++){
+			for (int i = BS + 1; i <= MaxDst; i++){
 				P[i][0] = GetRandom(1 / CO, (CO + 1) / (2 * CO));
 				P[i][1] = 1 + 1 / CO - 2 * P[i][0];
 				P[i][2] = P[i][0] - 1 / CO;
@@ -150,7 +150,7 @@ void SetProbablity(){
 		}
 		else
 			if (FNC == 002){  // Expected Value : CO*log(i+1)
-				for (int i = BS + 1; i<=MaxDst; i++){
+				for (int i = BS + 1; i <= MaxDst; i++){
 					int dst_i = node[i].dst;
 					P[i][0] = GetRandom(0.0, max(0.0, (CO*log(dst_i + 1) - CO*log(dst_i) - 1) / (CO*log(dst_i + 2) - CO*log(dst_i))));
 					P[i][1] = (CO*P[i][0] * log(dst_i) - CO*P[dst_i][0] * log(dst_i + 2) - CO*log(dst_i) + CO*log(dst_i + 1) - 1) / (CO*log(dst_i + 1) - CO*log(dst_i));
@@ -158,7 +158,7 @@ void SetProbablity(){
 				}
 			}
 			else if (FNC == 003){  // Expected Value : tekito
-				for (int i = BS + 1; i<=MaxDst; i++){
+				for (int i = BS + 1; i <= MaxDst; i++){
 					P[i][0] = 0.9;
 					P[i][1] = 0.05;
 					P[i][2] = 0.05;
@@ -350,17 +350,17 @@ int GetNextDst(int sender){
 		if (!exist_up && !exist_same && !exist_low)
 			return -1;
 
-		/*if (ALG == 3){
+		if (ALG == 3 || ALG == 0){
 			p_low = 0;
 			p_same = 0;
 			p_up = 1 * exist_up;
-			}*/
+		}
 
-		//else if (ALG == 2){
-		p_low = P[tmp_dst][2] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_low;
-		p_same = P[tmp_dst][1] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_same;
-		p_up = (1 - p_low - p_same) * exist_up;
-		//}
+		else if (ALG == 2 || ALG == 1){
+			p_low = P[tmp_dst][2] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_low;
+			p_same = P[tmp_dst][1] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_same;
+			p_up = (1 - p_low - p_same) * exist_up;
+		}
 
 
 		//when upper layer nodes are all dead, alg 0 selects other node
@@ -376,7 +376,7 @@ int GetNextDst(int sender){
 		double tmp_p = (double)rand() / RAND_MAX;
 
 
-		//TODO : Receiver select part for 1
+		//Receiver select part for 1
 		if (ALG == 1){
 			double maxE = 0;
 			int tmp_receiver = -1;
@@ -396,7 +396,7 @@ int GetNextDst(int sender){
 				}
 
 				else if (tmp_p < p_up + p_same + p_low){
-					for (i = can_l .begin(); i != can_l.end(); i++){
+					for (i = can_l.begin(); i != can_l.end(); i++){
 						if (node[*i].resE > maxE)
 							tmp_receiver = *i;
 					}
@@ -415,12 +415,12 @@ int GetNextDst(int sender){
 				return can_s[rand() % can_s.size()];
 			}
 
-			else if (tmp_p < p_up + p_same+ p_low){
+			else if (tmp_p < p_up + p_same + p_low){
 				return can_l[rand() % can_l.size()];
 			}
 			else return -1;
 	}
-    else return -1;
+	else return -1;
 }
 
 
@@ -544,10 +544,10 @@ int main() {
 	//Seed = 1477423634;
 	srand(Seed);
 
-    if(infile.fail()) {
-        cerr << "Infile do not exist.\n";
-        exit(0);
-    }
+	if (infile.fail()) {
+		cerr << "Infile do not exist.\n";
+		exit(0);
+	}
 
 
 	if (DbgMode == 2)
@@ -560,15 +560,15 @@ int main() {
 	{
 
 		/*if (DbgMode == 2){
-			outfile << "************************************" << endl;
-			outfile << "Sequence Num :" << NO << endl;
-			outfile << "#node : " << N << endl;
-			outfile << "ALG : " << ALG << endl;
-			outfile << "FNC : " << FNC << endl;
-			outfile << "Coefficient : " << CO << endl;
-			outfile << "Intencive : " << INTENCIVE << endl;
-			outfile << "************************************" << endl;
-			outfile << endl;
+		outfile << "************************************" << endl;
+		outfile << "Sequence Num :" << NO << endl;
+		outfile << "#node : " << N << endl;
+		outfile << "ALG : " << ALG << endl;
+		outfile << "FNC : " << FNC << endl;
+		outfile << "Coefficient : " << CO << endl;
+		outfile << "Intencive : " << INTENCIVE << endl;
+		outfile << "************************************" << endl;
+		outfile << endl;
 		}*/
 
 		ALG = 0;
@@ -688,7 +688,7 @@ int main() {
 
 							if (DbgMode == 2){
 								outfile << endl;
-								outfile << "New trigger occured at (" << Fixed_Sender <<")." << endl;
+								outfile << "New trigger occured at (" << Fixed_Sender << ")." << endl;
 							}
 						}
 						if (DbgMode == 2)
@@ -706,7 +706,7 @@ int main() {
 				if (
 					//CountR > 100 &&
 					//                (double)DeadCounta/(double)(N+BS) > 0.7
-					(double)Suc_Fwd / (LostTrg*100 + Suc_Fwd) < DL
+					(double)Suc_Fwd / (LostTrg * 100 + Suc_Fwd) < DL
 					)
 					Term = true;
 
@@ -729,7 +729,7 @@ int main() {
 			LostTrg = 0;
 			Suc_Fwd = 0;
 
-			if (ALG == ALG_NUM -1)
+			if (ALG == ALG_NUM - 1)
 				Rpt++;
 			ALG = (ALG + 1) % ALG_NUM;
 
