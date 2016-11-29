@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "499"
             endingLineNumber = "499"
-            landmarkName = "main()"
+            landmarkName = "ForwardMsg(int sender)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -45,7 +45,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "503"
             endingLineNumber = "503"
-            landmarkName = "main()"
+            landmarkName = "ForwardMsg(int sender)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

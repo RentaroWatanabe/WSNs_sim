@@ -50,11 +50,11 @@ int R_C;   // Communication Range (Radius)
 #define TRGPTN 222  // Trigger occuring patter
                     //111 means UNIFORM
                     //222 means FIXED
-int ALG;    // 123:Random alg 456:Shortest Path alg
-                    // 789:Improved Random alg
+int ALG;    // 123:Random alg 3:Shortest Path alg
+                    // 2:Improved Random alg
 			// 0:Possible Shortest Path alg
 			// 1:More Improved Random alg
-#define ALG_NUM 2
+#define ALG_NUM 4
 #define FNC 001    // Probability Functioin
                         // 001:i, 002:log(i+1), 003:sqrt(i), 004:tmp
 double CO;  // Set Coefficient Number

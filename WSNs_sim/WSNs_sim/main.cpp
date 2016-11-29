@@ -139,7 +139,7 @@ void SetMaxDst(){
 
 
 void SetProbablity(){
-	if (ALG == 123 || ALG == 789 || ALG == 0 || ALG == 1
+	if (ALG == 3 || ALG == 2 || ALG == 0 || ALG == 1
 		){    // Random alg
 		if (FNC == 001){  // Expected Value : CO*i
 			for (int i = BS + 1; i<=MaxDst; i++){
@@ -259,7 +259,7 @@ void SetProbablity(){
 //		else return 0;
 //	}
 //	else
-//		if (ALG == 456){     // Shortest Path alg
+//		if (ALG == 3){     // Shortest Path alg
 //			vector<int> can_dst;
 //			vector<int>::iterator i;
 //
@@ -273,7 +273,7 @@ void SetProbablity(){
 //			else return -1;
 //		}
 //		else
-//			if (ALG == 789){    // Probability Computation will be done at First
+//			if (ALG == 2){    // Probability Computation will be done at First
 //				if (node[sender].dst != 1){
 //					int tmp_dst = node[sender].dst;
 //					vector<int> can_dst;
@@ -350,13 +350,13 @@ int GetNextDst(int sender){
 		if (!exist_up && !exist_same && !exist_low)
 			return -1;
 
-		/*if (ALG == 456){
+		/*if (ALG == 3){
 			p_low = 0;
 			p_same = 0;
 			p_up = 1 * exist_up;
 			}*/
 
-		//else if (ALG == 789){
+		//else if (ALG == 2){
 		p_low = P[tmp_dst][2] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_low;
 		p_same = P[tmp_dst][1] * (1.0 / ((P[tmp_dst][0] * exist_up) + (P[tmp_dst][1] * exist_same) + (P[tmp_dst][2] * exist_low))) * exist_same;
 		p_up = (1 - p_low - p_same) * exist_up;
@@ -406,7 +406,7 @@ int GetNextDst(int sender){
 		}
 
 
-		//Receiver select part for 456,0,789
+		//Receiver select part for 3,0,2
 		if (tmp_p < p_up){
 			return can_u[rand() % can_u.size()];
 		}
