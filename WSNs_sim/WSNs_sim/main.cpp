@@ -420,6 +420,7 @@ int GetNextDst(int sender){
 			}
 			else return -1;
 	}
+    else return -1;
 }
 
 
@@ -543,6 +544,10 @@ int main() {
 	//Seed = 1477423634;
 	srand(Seed);
 
+    if(infile.fail()) {
+        cerr << "Infile do not exist.\n";
+        exit(0);
+    }
 
 
 	if (DbgMode == 2)
