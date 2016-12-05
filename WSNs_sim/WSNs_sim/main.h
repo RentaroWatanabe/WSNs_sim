@@ -38,7 +38,7 @@ using namespace std;
 /*************************************************
  Experimental Parameters
  *************************************************/
-#define N 100        // Number of Nodes
+#define N 200        // Number of Nodes
 #define ROUND 10000     // Number of Total Rounds
 #define MAX_E 2.0   // Maximum Energy of nodes
 #define AREA_W 100.0  // Area Width
