@@ -42,6 +42,8 @@ void InitVar(){
 	MaxDst = 0;
 	Fixed_Sender = -1;
 	Trg_Count = 1;
+	sim = 0;
+	Reserved_Sender.erase(Reserved_Sender.begin(), Reserved_Sender.end());
 	for (int i = 0; i<N + BS; i++){
 		node[i].ResetVar();
 		Dead[i] = 0;
@@ -541,7 +543,6 @@ void ForwardMsg(int sender){
 
 int main() {
 	Seed = (unsigned int)time(0);
-	//Seed = 1477423634;
 	srand(Seed);
 
 	if (infile.fail()) {
@@ -556,7 +557,7 @@ int main() {
 	if (DbgMode == 1)
 		cout << "Simutation Start." << endl;
 
-	while (infile >> NO >> R_C >> DL >> CO >> INTENCIVE)
+	while (infile >> NO >> R_C >> INTENCIVE)
 	{
 
 		/*if (DbgMode == 2){
@@ -573,165 +574,182 @@ int main() {
 
 		ALG = 0;
 		while (Rpt < RUN){
+			//do {
+			while (DL < DL_END + DL_INTERVAL){
+				do {
+					if (ALG == 0 && DL == DL_BEGIN){
+						if (DbgMode == 1)
+							cout << Rpt << "th Running" << endl;
 
-			if (ALG == 0){
-				if (DbgMode == 1)
-					cout << Rpt << "th Running" << endl;
-
-				if (DbgMode == 2)
-					outfile << "***** " << Rpt << "(/100)th Running *****" << endl;
-
-				InitVar();   // Initiation variables
-				if (DbgMode == 1)
-					cout << "Variable Initiation Completed." << endl;
-
-
-				// INITIATION of Nodes and Base Station and CREATION Graph
-				for (int i = 0; i < (N + BS); i++)
-					InitNode(i);
-				if (DbgMode == 1)
-					cout << "Node Initiation Completed." << endl;
-
-				CreateGraph();
-				if (DbgMode == 1)
-					cout << "New Graph Created." << endl;
-
-				SetDst(0, 0);
-				SetMaxDst();
-				if (DbgMode == 1)
-					cout << "Depth of Each Node Caliculated." << endl;
-			}
-			else {
-				for (int i = 0; i < (N + BS); i++){
-					node[i].resE = MAX_E;
-					Dead[i] = false;
-				}
-				Fixed_Sender = -1;
-				Trg_Count = 1;
-			}
-
-			Term = false;
-			CountR = 0;
-
-			SetProbablity();
-			if (DbgMode == 1)
-				cout << "Forwarding Probabilities Have Been Set." << endl;
-
-			//if (DbgMode == 2){	//output dependent relationship
-			//	outfile << endl;
-			//	outfile << " --- Dependent Relationship --- " << endl;
-			//		for (int i = 0; i < N + BS; i++){
-			//			outfile << i << "(" << node[i].dst <<") :";
-			//			for (auto itr = node[i].neighbor.begin(); itr != node[i].neighbor.end(); itr++) {
-			//				outfile << " " << *itr;
-			//			}
-			//			outfile << endl;
-			//		}
-			//	outfile << " ------------------------------ " << endl;
-			//	outfile << endl;
-			//}
-
-
-
-			while (!Term){     // Main Loop
-				pair<double, double> trg_location;
-				if (TRGPTN == 111){   // AppMSG Occurs Uniformly
-					trg_location.first = fmod(rand(), AREA_W);
-					trg_location.second = fmod(rand(), AREA_D);
-
-					//            else
-					//                if (TRGPTN == 222){ // Messages are Generated at Fixed Point
-					//                    trg_location.first = Trg_Point.first;
-					//                    trg_location.second = Trg_Point.second;
-					//                }
-
-
-					int can_sender = -1;
-					double min_dist = pow(R_S, 2.0);
-
-					// Search App MSG Sender
-					for (int i = 0; i<(N + BS); i++){
-
-						if (node[i].location.first >(trg_location.first - R_S)
-							&& node[i].location.first < (trg_location.first + R_S)
-							&& node[i].location.second >(trg_location.second - R_S)
-							&& node[i].location.second < (trg_location.second + R_S)){
-							double tmp_dist = pow((node[i].location.first - trg_location.first), 2.0) + pow((node[i].location.second - trg_location.second), 2.0);
-							if (min_dist >= tmp_dist){
-								min_dist = tmp_dist;
-								can_sender = i;
-							}
-						}
-					}
-
-
-					if (can_sender != -1)
-						// Begin MSG Forwarding
-						ForwardMsg(can_sender);
-
-				}
-				else
-					if (TRGPTN == 222){
-						CountR++;
-						if (Fixed_Sender == -1 || Dead[Fixed_Sender] || Trg_Count > INTENCIVE){ // Change Fixed Sender
-
-							vector<int> can_sender;
-							vector<int>::iterator i;
-
-							for (int i = BS; i < BS + N; i++){
-								if (!Dead[i]) can_sender.push_back(i);
-							}
-							if (!can_sender.empty())
-								Fixed_Sender = can_sender[rand() % can_sender.size()];
-							else Fixed_Sender = -1;
-							Trg_Count = 1;
-
-							if (DbgMode == 2){
-								outfile << endl;
-								outfile << "New trigger occured at (" << Fixed_Sender << ")." << endl;
-							}
-						}
 						if (DbgMode == 2)
-							outfile << Fixed_Sender;
-						ForwardMsg(Fixed_Sender);
-						Trg_Count++;
+							outfile << "***** " << Rpt << "(/100)th Running *****" << endl;
+
+						InitVar();   // Initiation variables
+						if (DbgMode == 1)
+							cout << "Variable Initiation Completed." << endl;
+
+
+						// INITIATION of Nodes and Base Station and CREATION Graph
+						for (int i = 0; i < (N + BS); i++)
+							InitNode(i);
+						if (DbgMode == 1)
+							cout << "Node Initiation Completed." << endl;
+
+						CreateGraph();
+						if (DbgMode == 1)
+							cout << "New Graph Created." << endl;
+
+						SetDst(0, 0);
+						SetMaxDst();
+						if (DbgMode == 1)
+							cout << "Depth of Each Node Caliculated." << endl;
+					}
+					else {
+						for (int i = 0; i < (N + BS); i++){
+							node[i].resE = MAX_E;
+							Dead[i] = false;
+						}
+						Fixed_Sender = -1;
+						Trg_Count = 1;
 					}
 
+					rs = -1;
+					Term = false;
+					CountR = 0;
 
-				DeadCounta = 0;
-				for (int i = 0; i < N + BS; i++){
-					if (Dead[i]) DeadCounta++;
-				}
+					SetProbablity();
+					if (DbgMode == 1)
+						cout << "Forwarding Probabilities Have Been Set." << endl;
 
-				if (
-					//CountR > 100 &&
-					//                (double)DeadCounta/(double)(N+BS) > 0.7
-					(double)Suc_Fwd / (LostTrg * 100 + Suc_Fwd) < DL
-					)
-					Term = true;
+					//if (DbgMode == 2){	//output dependent relationship
+					//	outfile << endl;
+					//	outfile << " --- Dependent Relationship --- " << endl;
+					//		for (int i = 0; i < N + BS; i++){
+					//			outfile << i << "(" << node[i].dst <<") :";
+					//			for (auto itr = node[i].neighbor.begin(); itr != node[i].neighbor.end(); itr++) {
+					//				outfile << " " << *itr;
+					//			}
+					//			outfile << endl;
+					//		}
+					//	outfile << " ------------------------------ " << endl;
+					//	outfile << endl;
+					//}
 
-				if (DbgMode == 1){
-					cout << "Dead Rate(%) = " << (double)DeadCounta / (double)N * 100 << endl;
-					if (Term)
-						cout << "Running Terminated." << endl;
-					else
-						cout << "Running Continued." << endl;
-				}
+
+
+					while (!Term){     // Main Loop
+						pair<double, double> trg_location;
+						if (TRGPTN == 111){   // AppMSG Occurs Uniformly
+							trg_location.first = fmod(rand(), AREA_W);
+							trg_location.second = fmod(rand(), AREA_D);
+
+							//            else
+							//                if (TRGPTN == 222){ // Messages are Generated at Fixed Point
+							//                    trg_location.first = Trg_Point.first;
+							//                    trg_location.second = Trg_Point.second;
+							//                }
+
+
+							int can_sender = -1;
+							double min_dist = pow(R_S, 2.0);
+
+							// Search App MSG Sender
+							for (int i = 0; i<(N + BS); i++){
+
+								if (node[i].location.first >(trg_location.first - R_S)
+									&& node[i].location.first < (trg_location.first + R_S)
+									&& node[i].location.second >(trg_location.second - R_S)
+									&& node[i].location.second < (trg_location.second + R_S)){
+									double tmp_dist = pow((node[i].location.first - trg_location.first), 2.0) + pow((node[i].location.second - trg_location.second), 2.0);
+									if (min_dist >= tmp_dist){
+										min_dist = tmp_dist;
+										can_sender = i;
+									}
+								}
+							}
+
+
+							if (can_sender != -1)
+								// Begin MSG Forwarding
+								ForwardMsg(can_sender);
+
+						}
+						else
+							if (TRGPTN == 222){
+								CountR++;
+								if (Fixed_Sender == -1 || // initiated status
+									// Dead[Fixed_Sender] ||
+									Trg_Count > INTENCIVE){ // Change Fixed Sender
+
+									rs++;
+									if (rs + 1 > Reserved_Sender.size())
+										Reserved_Sender.push_back((rand() % N) + 1);
+									Fixed_Sender = Reserved_Sender[rs];
+
+									if (DbgMode == 2){
+										outfile << endl;
+										outfile << "New trigger occured at (" << Fixed_Sender << ")." << endl;
+									}
+								}
+								if (DbgMode == 2)
+									outfile << Fixed_Sender;
+								ForwardMsg(Fixed_Sender);
+								Trg_Count++;
+							}
+
+
+						DeadCounta = 0;
+						for (int i = 0; i < N + BS; i++){
+							if (Dead[i]) DeadCounta++;
+						}
+
+						if (
+							//CountR > 100 &&
+							//                (double)DeadCounta/(double)(N+BS) > 0.7
+							(double)Suc_Fwd / (LostTrg * 100 + Suc_Fwd) < DL
+							)
+							Term = true;
+
+						if (DbgMode == 1){
+							cout << "Dead Rate(%) = " << (double)DeadCounta / (double)N * 100 << endl;
+							if (Term)
+								cout << "Running Terminated." << endl;
+							else
+								cout << "Running Continued." << endl;
+						}
+					}
+
+					OP_R[sim] += CountR - 1;
+					OP_TMSG[sim] += TotalMsg;
+					OP_LMSG[sim] += LostTrg;
+					OP_FWD[sim] += Suc_Fwd;
+
+					CountR = 0;
+					TotalMsg = 0;
+					LostTrg = 0;
+					Suc_Fwd = 0;
+
+					sim++;
+					if (sim == Sim_Type_Num)
+						//if (ALG = ALG_NUM - 1)
+						if (ALG == 3)
+						Rpt++;
+						else{
+							cout << endl << "ALERT!!" << endl;
+							outfile << endl << "ALERT!!" << endl;
+						}
+					
+
+					CO += CO_INTERVAL;
+				} while ((ALG == 1 || ALG == 2) && (CO < CO_END + CO_INTERVAL));
+				CO = CO_BEGIN;
+
+				/*} while ((ALG == 1 || ALG == 2) && (DL <= DL_END));*/
+
+				if (ALG == ALG_NUM - 1)
+					DL += DL_INTERVAL;
+				ALG = (ALG + 1) % ALG_NUM;
 			}
-
-			OP_R[ALG] += CountR - 1;
-			OP_TMSG[ALG] += TotalMsg;
-			OP_LMSG[ALG] += LostTrg;
-			OP_FWD[ALG] += Suc_Fwd;
-
-			CountR = 0;
-			TotalMsg = 0;
-			LostTrg = 0;
-			Suc_Fwd = 0;
-
-			if (ALG == ALG_NUM - 1)
-				Rpt++;
-			ALG = (ALG + 1) % ALG_NUM;
 
 		}   // End Main Loop
 
@@ -743,23 +761,91 @@ int main() {
 		//cout << "\n";
 
 
-		for (int i = 0; i < ALG_NUM; i++){
-			cout << endl;
-			cout << "----- Total Result -----" << endl;
-			cout << "Algorithm ID : " << i << endl;
-			cout << "Average Round : " << (double)OP_R[i] / RUN << endl;
-			cout << "Average Forwarding Msg : " << (double)OP_TMSG[i] / RUN << endl;
-			cout << "Average Lost Msg : " << (double)OP_LMSG[i] / RUN << endl;
-			cout << endl;
+		sim = 0;
+		ALG = 0;
+			for (double tmp_dl = DL_BEGIN; tmp_dl <= DL_END; tmp_dl += DL_INTERVAL){
 
-			outfile << NO << " " << (double)OP_R[i] / RUN << " " << (double)OP_TMSG[i] / RUN << endl;
+				//ALG == 0
+				cout << endl;
+				cout << "----- Total Result -----" << endl;
+				cout << "Algorithm ID : " << ALG << endl;
+				cout << "Average Round : " << (double)OP_R[sim] / RUN << endl;
+				cout << "Average Forwarding Msg : " << (double)OP_TMSG[sim] / RUN << endl;
+				cout << "Average Lost Msg : " << (double)OP_LMSG[sim] / RUN << endl;
+				cout << endl;
 
-			OP_R[i] = 0;
-			OP_TMSG[i] = 0;
-			OP_LMSG[i] = 0;
-		}
+				outfile << NO << " " << tmp_dl << " " << ALG << " NA " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
+
+				OP_R[sim] = 0;
+				OP_TMSG[sim] = 0;
+				OP_LMSG[sim] = 0;
+				sim++;
+				ALG++;
+
+				//ALG == 1
+				for (double tmp_co = CO_BEGIN; tmp_co <= CO_END; tmp_co += CO_INTERVAL){
+					cout << endl;
+					cout << "----- Total Result -----" << endl;
+					cout << "Algorithm ID : " << ALG << endl;
+					cout << "Average Round : " << (double)OP_R[sim] / RUN << endl;
+					cout << "Average Forwarding Msg : " << (double)OP_TMSG[sim] / RUN << endl;
+					cout << "Average Lost Msg : " << (double)OP_LMSG[sim] / RUN << endl;
+					cout << endl;
+
+					outfile << NO << " " << tmp_dl << " " << ALG << " " << tmp_co << " " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
+
+					OP_R[sim] = 0;
+					OP_TMSG[sim] = 0;
+					OP_LMSG[sim] = 0;
+					sim++;
+				}
+				ALG++;
+
+				//ALG == 2
+				for (double tmp_co = CO_BEGIN; tmp_co <= CO_END; tmp_co += CO_INTERVAL){
+					cout << endl;
+					cout << "----- Total Result -----" << endl;
+					cout << "Algorithm ID : " << ALG << endl;
+					cout << "Average Round : " << (double)OP_R[sim] / RUN << endl;
+					cout << "Average Forwarding Msg : " << (double)OP_TMSG[sim] / RUN << endl;
+					cout << "Average Lost Msg : " << (double)OP_LMSG[sim] / RUN << endl;
+					cout << endl;
+
+					outfile << NO << " " << tmp_dl << " " << ALG << " " << tmp_co << " " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
+
+					OP_R[sim] = 0;
+					OP_TMSG[sim] = 0;
+					OP_LMSG[sim] = 0;
+					sim++;
+				}
+				ALG++;
+
+				//ALG == 3
+					cout << endl;
+					cout << "----- Total Result -----" << endl;
+					cout << "Algorithm ID : " << ALG << endl;
+					cout << "Average Round : " << (double)OP_R[sim] / RUN << endl;
+					cout << "Average Forwarding Msg : " << (double)OP_TMSG[sim] / RUN << endl;
+					cout << "Average Lost Msg : " << (double)OP_LMSG[sim] / RUN << endl;
+					cout << endl;
+
+					outfile << NO << " " << tmp_dl << " " << ALG << " NA " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
+
+					OP_R[sim] = 0;
+					OP_TMSG[sim] = 0;
+					OP_LMSG[sim] = 0;
+					sim++;
+
+			}
+			
+			if (sim != Sim_Type_Num)
+				outfile << endl;
+				outfile << "ALERT!!!" << endl;
+				outfile << endl;
 
 		Rpt = 0;
+		sim = 0;
+		ALG = 0;
 
 	} // End Repeat
 	outfile << endl;

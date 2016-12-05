@@ -38,7 +38,7 @@ using namespace std;
 /*************************************************
  Experimental Parameters
  *************************************************/
-#define N 200        // Number of Nodes
+#define N 100        // Number of Nodes
 #define ROUND 10000     // Number of Total Rounds
 #define MAX_E 2.0   // Maximum Energy of nodes
 #define AREA_W 100.0  // Area Width
@@ -57,10 +57,23 @@ int ALG;    // 123:Random alg 3:Shortest Path alg
 #define ALG_NUM 4
 #define FNC 001    // Probability Functioin
                         // 001:i, 002:log(i+1), 003:sqrt(i), 004:tmp
-double CO;  // Set Coefficient Number
-                  // Dont Set 0 !!
-#define RUN 100    // Experimental Running Times
-double DL;  // Deadline Rounds of Single Running
+
+
+// Set Coefficient Number
+// Dont Set 0 !!
+double CO_BEGIN = 1.0;
+double CO_END = 3.0;
+double CO_INTERVAL = 0.10;
+double CO = CO_BEGIN;  
+
+#define RUN 1    // Experimental Running Times
+
+double DL_BEGIN = 0.01;
+double DL_END = 0.8;
+double DL_INTERVAL = 0.01;
+double DL = DL_BEGIN;  // Deadline Rounds of Single Running
+
+
 int INTENCIVE;  // Number of Rounds Messages Generate at Fixed Location (where TRGPTN = 222)
 int NO;		// Input Running Number from "parameter.txt"
 
@@ -80,6 +93,11 @@ int NO;		// Input Running Number from "parameter.txt"
 ifstream infile("parameters.txt");
 // Open Output File
 ofstream outfile("result.txt");
+
+// Input Variable about using status
+// 1 means Use Straged Status;
+// 0 means Reset and Generate Status;
+bool RESERVING_STATUS;
 
 
 
@@ -106,13 +124,20 @@ unsigned int Seed;  // For Debug
 bool Term;  // Termination Flag
 int DeadCounta;
 int Rpt = 0;
-int OP_R[ALG_NUM], OP_TMSG[ALG_NUM], OP_LMSG[ALG_NUM], OP_FWD[ALG_NUM];
+//#define Sim_Type_Num (((ALG_NUM - 2) + (((int)((CO_END - CO_BEGIN)*CO_INTERVAL) + 1)*2))*((int)((DL_END - DL_BEGIN)*DL_INTERVAL) + 1))
+#define Sim_Type_Num 3520
+int OP_R[Sim_Type_Num];
+int OP_TMSG[Sim_Type_Num];
+int OP_LMSG[Sim_Type_Num];
+int OP_FWD[Sim_Type_Num];
 // pair<double, double> Trg_Point;
 int Fixed_Sender;
 int Trg_Count;  // Times Messages Occured at Same Location
 int Suc_Fwd;	// Number of Messages Fowarded to BS
-
-
+vector<int> Reserved_Sender{-1};
+int rs; //index of Reserved_Sender
+int sim; //simulated running number(distingish CO or DL)
+		// 0 ~ (Sim_Type_Num-1)
 
 
 #endif /* main_h */
