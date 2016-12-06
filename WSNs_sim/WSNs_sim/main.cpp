@@ -750,6 +750,7 @@ int main() {
                     DL += DL_INTERVAL;
                 ALG = (ALG + 1) % ALG_NUM;
             }
+			DL = DL_BEGIN;
             
         }   // End Main Loop
         
