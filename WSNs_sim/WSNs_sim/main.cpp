@@ -764,6 +764,11 @@ int main() {
         
         sim = 0;
         ALG = 0;
+        now = time(NULL);
+        tm *pnow = localtime(&now);
+        sprintf(buff, "%04d/%02d/%02d %02d:%02d:%02d", pnow->tm_year + 1900, pnow->tm_mon + 1, pnow->tm_mday,
+                pnow->tm_hour, pnow->tm_min, pnow->tm_sec);
+        
         for (double tmp_dl = DL_BEGIN; tmp_dl < DL_END + DL_INTERVAL; tmp_dl += DL_INTERVAL){
             
             //ALG == 0
@@ -773,6 +778,7 @@ int main() {
             cout << "Average Round : " << (double)OP_R[sim] / RUN << endl;
             cout << "Average Forwarding Msg : " << (double)OP_TMSG[sim] / RUN << endl;
             cout << "Average Lost Msg : " << (double)OP_LMSG[sim] / RUN << endl;
+            cout << "Terminated Time : " << buff << endl;
             cout << endl;
             
             outfile << NO << " " << tmp_dl << " " << ALG << " NA " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
@@ -791,6 +797,7 @@ int main() {
                 cout << "Average Round : " << (double)OP_R[sim] / RUN << endl;
                 cout << "Average Forwarding Msg : " << (double)OP_TMSG[sim] / RUN << endl;
                 cout << "Average Lost Msg : " << (double)OP_LMSG[sim] / RUN << endl;
+                cout << "Terminated Time : " << buff << endl;
                 cout << endl;
                 
                 outfile << NO << " " << tmp_dl << " " << ALG << " " << tmp_co << " " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
@@ -810,6 +817,7 @@ int main() {
                 cout << "Average Round : " << (double)OP_R[sim] / RUN << endl;
                 cout << "Average Forwarding Msg : " << (double)OP_TMSG[sim] / RUN << endl;
                 cout << "Average Lost Msg : " << (double)OP_LMSG[sim] / RUN << endl;
+                cout << "Terminated Time : " << buff << endl;
                 cout << endl;
                 
                 outfile << NO << " " << tmp_dl << " " << ALG << " " << tmp_co << " " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
@@ -828,6 +836,7 @@ int main() {
             cout << "Average Round : " << (double)OP_R[sim] / RUN << endl;
             cout << "Average Forwarding Msg : " << (double)OP_TMSG[sim] / RUN << endl;
             cout << "Average Lost Msg : " << (double)OP_LMSG[sim] / RUN << endl;
+            cout << "Terminated Time : " << buff << endl;
             cout << endl;
             
             outfile << NO << " " << tmp_dl << " " << ALG << " NA " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
