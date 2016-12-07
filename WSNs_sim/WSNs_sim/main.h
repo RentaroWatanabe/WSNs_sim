@@ -139,5 +139,9 @@ int rs; //index of Reserved_Sender
 int sim; //simulated running number(distingish CO or DL)
 		// 0 ~ (Sim_Type_Num-1)
 
+// for outputing terminated time
+char buff[] = "";
+time_t now;
+struct tm *pnow;
 
 #endif /* main_h */
