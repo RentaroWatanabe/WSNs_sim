@@ -57,8 +57,8 @@ void InitVar(){
 
 
 bool IsNeighbor(int ida, int idb){  // return whether given 2 nodes are neigbor each other
-    pair<int, int> loca = node[ida].location;
-    pair<int, int> locb = node[idb].location;
+    pair<double, double> loca = node[ida].location;
+    pair<double, double> locb = node[idb].location;
     if (pow((loca.first - locb.first), 2.0) + pow((loca.second - locb.second), 2.0) <= pow(R_C, 2.0))
         return true;
     else return false;
@@ -492,6 +492,7 @@ void ForwardMsg(int sender){
             //EnergyConsume(sender, -1);
         }
         else {   //Connected Node
+			Pass_Long_tmp = 0;
             while (receiver != 0){
                 sender = receiver;
                 receiver = GetNextDst(sender);
@@ -512,6 +513,7 @@ void ForwardMsg(int sender){
                 if (DbgMode == 2){
                     outfile << " " << receiver;
                 }
+				Pass_Long_tmp++;
                 TotalMsg++;
                 EnergyConsume(sender, receiver);
                 if (Dead[receiver] || Dead[sender]){    // Dead Node sent or received
@@ -526,6 +528,8 @@ void ForwardMsg(int sender){
                 }
             }
             Suc_Fwd++;
+			Pass_Long += Pass_Long_tmp;
+			Pass_Long_tmp = 0;
             if (receiver == 0 && ViewPath == 1)
                 cout << " B" << endl;
             if (DbgMode == 2){
@@ -723,11 +727,13 @@ int main() {
                     OP_TMSG[sim] += TotalMsg;
                     OP_LMSG[sim] += LostTrg;
                     OP_FWD[sim] += Suc_Fwd;
+					OP_PS[sim] += Pass_Long;
                     
                     CountR = 0;
                     TotalMsg = 0;
                     LostTrg = 0;
                     Suc_Fwd = 0;
+					Pass_Long = 0;
                     
                     sim++;
                     if (sim == Sim_Type_Num)
@@ -781,11 +787,15 @@ int main() {
             cout << "Terminated Time : " << buff << endl;
             cout << endl;
             
-            outfile << NO << " " << tmp_dl << " " << ALG << " NA " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
+			outfile << NO << " " << tmp_dl << " " << ALG << " NA " << (double)OP_R[sim] / RUN 
+				<< " " << (double)OP_TMSG[sim] / RUN << " " << (double)OP_LMSG[sim] / RUN
+				<< " " << (double)OP_FWD[sim] / RUN << " " << (double)OP_PS[sim] / OP_FWD[sim] << endl;
             
             OP_R[sim] = 0;
             OP_TMSG[sim] = 0;
             OP_LMSG[sim] = 0;
+			OP_FWD[sim] = 0;
+			OP_PS[sim] = 0;
             sim++;
             ALG = (ALG + 1) % ALG_NUM;
             
@@ -800,12 +810,15 @@ int main() {
                 cout << "Terminated Time : " << buff << endl;
                 cout << endl;
                 
-                outfile << NO << " " << tmp_dl << " " << ALG << " " << tmp_co << " " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
-                
+				outfile << NO << " " << tmp_dl << " " << ALG << " " << tmp_co << " " << (double)OP_R[sim] / RUN 
+					<< " " << (double)OP_TMSG[sim] / RUN << " " << (double)OP_LMSG[sim] / RUN
+					<< " " << (double)OP_FWD[sim] / RUN << " " << (double)OP_PS[sim] / OP_FWD[sim] << endl;
                 OP_R[sim] = 0;
                 OP_TMSG[sim] = 0;
                 OP_LMSG[sim] = 0;
-                sim++;
+				OP_FWD[sim] = 0;
+				OP_PS[sim] = 0;
+				sim++;
             }
             ALG = (ALG + 1) % ALG_NUM;
             
@@ -820,11 +833,14 @@ int main() {
                 cout << "Terminated Time : " << buff << endl;
                 cout << endl;
                 
-                outfile << NO << " " << tmp_dl << " " << ALG << " " << tmp_co << " " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
-                
+				outfile << NO << " " << tmp_dl << " " << ALG << " " << tmp_co << " " << (double)OP_R[sim] / RUN 
+					<< " " << (double)OP_TMSG[sim] / RUN << " " << (double)OP_LMSG[sim] / RUN
+					<< " " << (double)OP_FWD[sim] / RUN << " " << (double)OP_PS[sim] / OP_FWD[sim] << endl;
                 OP_R[sim] = 0;
                 OP_TMSG[sim] = 0;
                 OP_LMSG[sim] = 0;
+				OP_FWD[sim] = 0;
+				OP_PS[sim] = 0;
                 sim++;
             }
             ALG = (ALG + 1) % ALG_NUM;
@@ -839,11 +855,15 @@ int main() {
             cout << "Terminated Time : " << buff << endl;
             cout << endl;
             
-            outfile << NO << " " << tmp_dl << " " << ALG << " NA " << (double)OP_R[sim] / RUN << " " << (double)OP_TMSG[sim] / RUN << endl;
-            
+			outfile << NO << " " << tmp_dl << " " << ALG << " NA " << (double)OP_R[sim] / RUN
+				<< " " << (double)OP_TMSG[sim] / RUN << " " << (double)OP_LMSG[sim] / RUN
+				<< " " << (double)OP_FWD[sim] / RUN << " " << (double)OP_PS[sim] / OP_FWD[sim] << endl;
+
             OP_R[sim] = 0;
             OP_TMSG[sim] = 0;
             OP_LMSG[sim] = 0;
+			OP_FWD[sim] = 0;
+			OP_PS[sim] = 0;
             sim++;
             ALG = (ALG + 1) % ALG_NUM;
             
