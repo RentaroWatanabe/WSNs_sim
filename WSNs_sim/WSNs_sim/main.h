@@ -126,14 +126,17 @@ int DeadCounta;
 int Rpt = 0;
 //#define Sim_Type_Num (((ALG_NUM - 2) + (((int)((CO_END - CO_BEGIN)*CO_INTERVAL) + 1)*2))*((int)((DL_END - DL_BEGIN)*DL_INTERVAL) + 1))
 #define Sim_Type_Num 3520
-int OP_R[Sim_Type_Num];
-int OP_TMSG[Sim_Type_Num];
-int OP_LMSG[Sim_Type_Num];
-int OP_FWD[Sim_Type_Num];
+int OP_R[Sim_Type_Num]; // Round Count
+int OP_TMSG[Sim_Type_Num];	// Total MSG Count
+int OP_LMSG[Sim_Type_Num];	// Lost MSG Count
+int OP_FWD[Sim_Type_Num];	// Fowarding Count
+int OP_PS[Sim_Type_Num];	// Routing Pass Count
 // pair<double, double> Trg_Point;
 int Fixed_Sender;
 int Trg_Count;  // Times Messages Occured at Same Location
 int Suc_Fwd;	// Number of Messages Fowarded to BS
+int Pass_Long;	// Routing Pass Longth
+int Pass_Long_tmp; // tmp variable for counting
 vector<int> Reserved_Sender{-1};
 int rs; //index of Reserved_Sender
 int sim; //simulated running number(distingish CO or DL)
