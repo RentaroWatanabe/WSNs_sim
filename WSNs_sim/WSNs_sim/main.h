@@ -38,16 +38,19 @@ using namespace std;
 /*************************************************
  Experimental Parameters
  *************************************************/
-#define N 100        // Number of Nodes
+#define N 2500        // Number of Nodes
+                    // x^2(must be SQUARE VALUE) : Grid Topology Mode
+                    // Other value : Random Topology Mode
+#define TOPOLOGY 1  // 0 : Random, 1 : Grid
 #define ROUND 10000     // Number of Total Rounds
 #define MAX_E 2.0   // Maximum Energy of nodes
-#define AREA_W 100.0  // Area Width
-#define AREA_D 100.0  // Area Depth
+#define AREA_W 49.0  // Area Width
+#define AREA_D 49.0  // Area Depth
 int R_C;   // Communication Range (Radius)
 #define R_S 10.0   // Sensing Range (Radius)
 #define L 4000     // Bit-long of Message
 #define BS 1    // Number of Base Station
-#define TRGPTN 222  // Trigger occuring patter
+#define TRGPTN 222  // Trigger occuring pattern
                     //111 means UNIFORM
                     //222 means FIXED
 int ALG;    // 123:Random alg 3:Shortest Path alg
