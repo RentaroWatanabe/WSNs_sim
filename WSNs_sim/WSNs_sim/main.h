@@ -71,9 +71,9 @@ double CO = CO_BEGIN;
 
 #define RUN 100    // Experimental Running Times
 
-double DL_BEGIN = 0.01;
-double DL_END = 0.8;
-double DL_INTERVAL = 0.01;
+double DL_BEGIN = 0.20;
+double DL_END = 0.80;
+double DL_INTERVAL = 0.1;
 double DL = DL_BEGIN;  // Deadline Rounds of Single Running
 
 
@@ -127,8 +127,8 @@ unsigned int Seed;  // For Debug
 bool Term;  // Termination Flag
 int DeadCounta;
 int Rpt = 0;
-//#define Sim_Type_Num (((ALG_NUM - 2) + (((int)((CO_END - CO_BEGIN)*CO_INTERVAL) + 1)*2))*((int)((DL_END - DL_BEGIN)*DL_INTERVAL) + 1))
-#define Sim_Type_Num 3520
+//#define Sim_Type_Num (((ALG_NUM - 2) + (((int)((CO_END - CO_BEGIN)/CO_INTERVAL) + 1)*2))*((int)((DL_END - DL_BEGIN)/DL_INTERVAL) + 1))
+#define Sim_Type_Num 308
 int OP_R[Sim_Type_Num]; // Round Count
 int OP_TMSG[Sim_Type_Num];	// Total MSG Count
 int OP_LMSG[Sim_Type_Num];	// Lost MSG Count
