@@ -140,7 +140,7 @@ int Trg_Count;  // Times Messages Occured at Same Location
 int Suc_Fwd;	// Number of Messages Fowarded to BS
 int Pass_Long;	// Routing Pass Longth
 int Pass_Long_tmp; // tmp variable for counting
-vector<int> Reserved_Sender{-1};
+vector<int> Reserved_Sender;
 int rs; //index of Reserved_Sender
 int sim; //simulated running number(distingish CO or DL)
 		// 0 ~ (Sim_Type_Num-1)

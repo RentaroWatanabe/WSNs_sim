@@ -33,7 +33,7 @@ void InitNode(int i){
             node[i].location.second = fmod(rand(), AREA_D * 100) / 100;
         }
         else if (TOPOLOGY == 1){    //Grid Topology Mode
-         // TODO
+            // TODO
             double w_iv = AREA_W / (int)(sqrt(N) - 1.0);
             double d_iv = AREA_D / (int)(sqrt(N) - 1.0);
             node[i].location.first = ((i-BS) % (int)sqrt(N)) * w_iv;
@@ -53,7 +53,8 @@ void InitVar(){
     Fixed_Sender = -1;
     Trg_Count = 1;
     sim = 0;
-    Reserved_Sender.erase(Reserved_Sender.begin(), Reserved_Sender.end());
+    //Reserved_Sender.erase(Reserved_Sender.begin(), Reserved_Sender.end());
+    Reserved_Sender.clear();
     for (int i = 0; i<N + BS; i++){
         node[i].ResetVar();
         Dead[i] = 0;
@@ -556,7 +557,8 @@ void ForwardMsg(int sender){
 
 
 int main() {
-    Seed = (unsigned int)time(0);
+    Seed = 1484634044;
+    //    Seed = (unsigned int)time(0);
     srand(Seed);
     
     if (infile.fail()) {
@@ -690,16 +692,25 @@ int main() {
                         }
                         else
                             if (TRGPTN == 222){
+                                
+                                if ((DL > 0.89) && (CO > 1.6) && (CountR = 1)){
+                                    cout << "alert" << endl;
+                                }
+                                
                                 CountR++;
                                 if (Fixed_Sender == -1 || // initiated status
                                     // Dead[Fixed_Sender] ||
                                     Trg_Count > INTENCIVE){ // Change Fixed Sender
                                     
                                     rs++;
-                                    if (rs + 1 > Reserved_Sender.size())
-                                        Reserved_Sender.push_back((rand() % N) + 1);
+                                    if ((rs + 1) > (int)Reserved_Sender.size()){
+                                        int tmp = (rand() % N) + 1;
+                                        Reserved_Sender.push_back(tmp);
+                                        //                                        Reserved_Sender.push_back((rand() % N) + 1);
+                                    }
                                     Fixed_Sender = Reserved_Sender[rs];
                                     
+                                    cout << Fixed_Sender << endl;
                                     if (DbgMode == 2){
                                         outfile << endl;
                                         outfile << "New trigger occured at (" << Fixed_Sender << ")." << endl;
