@@ -15,6 +15,7 @@ void Node::ResetVar(){
     location.first = -1.0;
     location.second = -1.0;
     neighbor.clear();
+//    vector<int> (neighbor).swap(neighbor);
     resE = 2.0;
     dst = -1;
     isbs = 0;

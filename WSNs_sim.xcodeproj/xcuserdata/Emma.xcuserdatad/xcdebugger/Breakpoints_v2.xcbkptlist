@@ -47,28 +47,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WSNs_sim/WSNs_sim/main.cpp"
-            timestampString = "506367156.455749"
+            timestampString = "506366460.514824"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "698"
-            endingLineNumber = "698"
-            landmarkName = "main()"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WSNs_sim/WSNs_sim/main.cpp"
-            timestampString = "506367156.455749"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "697"
-            endingLineNumber = "697"
-            landmarkName = "main()"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "InitVar()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -79,13 +63,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WSNs_sim/WSNs_sim/main.cpp"
-            timestampString = "506366460.514824"
+            timestampString = "506387049.716063"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "InitVar()"
+            startingLineNumber = "730"
+            endingLineNumber = "730"
+            landmarkName = "main()"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WSNs_sim/WSNs_sim/main.h"
+            timestampString = "506387160.098222"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "124"
+            endingLineNumber = "124">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

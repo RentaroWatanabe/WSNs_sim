@@ -55,6 +55,7 @@ void InitVar(){
     sim = 0;
     //Reserved_Sender.erase(Reserved_Sender.begin(), Reserved_Sender.end());
     Reserved_Sender.clear();
+//    vector<int> (Reserved_Sender).swap(Reserved_Sender);
     for (int i = 0; i<N + BS; i++){
         node[i].ResetVar();
         Dead[i] = 0;
@@ -557,8 +558,7 @@ void ForwardMsg(int sender){
 
 
 int main() {
-    Seed = 1484634044;
-    //    Seed = (unsigned int)time(0);
+    Seed = (unsigned int)time(0);
     srand(Seed);
     
     if (infile.fail()) {
@@ -591,7 +591,7 @@ int main() {
         ALG = 0;
         while (Rpt < RUN){
             //do {
-            while (DL < DL_END + DL_INTERVAL){
+            while (DL_END + DL_INTERVAL - DL > 0.000001){
                 do {
                     if (ALG == 0 && DL == DL_BEGIN){
                         if (DbgMode == 1)
@@ -655,6 +655,7 @@ int main() {
                     
                     while (!Term){     // Main Loop
                         pair<double, double> trg_location;
+                        
                         if (TRGPTN == 111){   // AppMSG Occurs Uniformly
                             trg_location.first = fmod(rand(), AREA_W);
                             trg_location.second = fmod(rand(), AREA_D);
@@ -692,11 +693,7 @@ int main() {
                         }
                         else
                             if (TRGPTN == 222){
-                                
-                                if ((DL > 0.89) && (CO > 1.6) && (CountR = 1)){
-                                    cout << "alert" << endl;
-                                }
-                                
+
                                 CountR++;
                                 if (Fixed_Sender == -1 || // initiated status
                                     // Dead[Fixed_Sender] ||
@@ -704,13 +701,9 @@ int main() {
                                     
                                     rs++;
                                     if ((rs + 1) > (int)Reserved_Sender.size()){
-                                        int tmp = (rand() % N) + 1;
-                                        Reserved_Sender.push_back(tmp);
-                                        //                                        Reserved_Sender.push_back((rand() % N) + 1);
+                                        Reserved_Sender.push_back((rand() % N) + 1);
                                     }
                                     Fixed_Sender = Reserved_Sender[rs];
-                                    
-                                    cout << Fixed_Sender << endl;
                                     if (DbgMode == 2){
                                         outfile << endl;
                                         outfile << "New trigger occured at (" << Fixed_Sender << ")." << endl;
@@ -731,7 +724,7 @@ int main() {
                         if (
                             //CountR > 100 &&
                             //                (double)DeadCounta/(double)(N+BS) > 0.7
-                            (double)Suc_Fwd / (double)TotalMsg < DL
+                            (double)Suc_Fwd / ((double)Suc_Fwd + (double)LostTrg) < DL
                             )
                             Term = true;
                         
@@ -768,7 +761,7 @@ int main() {
                     }
                     
                     CO += CO_INTERVAL;
-                } while ((ALG == 1 || ALG == 2) && (CO < CO_END + CO_INTERVAL));
+                } while ((ALG == 1 || ALG == 2) && (CO_END + CO_INTERVAL - CO > 0.000001));
                 CO = CO_BEGIN;
                 
                 /*} while ((ALG == 1 || ALG == 2) && (DL <= DL_END));*/
