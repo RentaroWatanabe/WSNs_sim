@@ -14,6 +14,8 @@
 // node[0~(BS-1)] : Base Station
 // node[BS~(N+BS-1)] : Sensor Node
 //
+
+
 void InitNode(int i){
     node[i].id = i;
     
@@ -34,10 +36,10 @@ void InitNode(int i){
         }
         else if (TOPOLOGY == 1){    //Grid Topology Mode
             // TODO
-            double w_iv = AREA_W / (int)(sqrt(N) - 1.0);
-            double d_iv = AREA_D / (int)(sqrt(N) - 1.0);
-            node[i].location.first = ((i-BS) % (int)sqrt(N)) * w_iv;
-            node[i].location.second = ((i-BS) / (int)sqrt(N)) * d_iv;
+            double w_iv = (double)(int)(AREA_W / sqrtN + 0.5);
+            double d_iv = (double)(int)(AREA_D / sqrtN + 0.5);
+            node[i].location.first = ((i-BS) % sqrtN) * w_iv;
+            node[i].location.second = ((i-BS) / sqrtN) * d_iv;
         }
         Location[i] = node[i].location;
         node[i].isbs = 0;
@@ -55,7 +57,7 @@ void InitVar(){
     sim = 0;
     //Reserved_Sender.erase(Reserved_Sender.begin(), Reserved_Sender.end());
     Reserved_Sender.clear();
-//    vector<int> (Reserved_Sender).swap(Reserved_Sender);
+    //vector<int> (Reserved_Sender).swap(Reserved_Sender);
     for (int i = 0; i<N + BS; i++){
         node[i].ResetVar();
         Dead[i] = 0;
@@ -63,6 +65,22 @@ void InitVar(){
         for (int j = 0; j<(N + BS); j++){
             NN[i][j] = -1;
         }
+    }
+}
+
+
+
+void Reset(){
+    Fixed_Sender = -1;
+    Trg_Count = 1;
+    sim = 0;
+    //Reserved_Sender.erase(Reserved_Sender.begin(), Reserved_Sender.end());
+    Reserved_Sender.clear();
+    //vector<int> (Reserved_Sender).swap(Reserved_Sender);
+
+    for (int i = 0; i< N + BS; i++){
+        node[i].resE = MAX_E;
+        Dead[i] = 0;
     }
 }
 
@@ -107,18 +125,32 @@ double Cutback(double p){
 
 void CreateGraph(){     // Set NN  -1:Self Node 0:DISconnected 1:Connected
     
-    for (int i = 0; i<(N + BS); i++){
-        for (int j = 0; j<(N + BS); j++){
-            if (i == j);
-            else if (NN[i][j] < 0){     // Not Calculated
-                NN[i][j] = IsNeighbor(i, j);   // Input 1 or 0
-                NN[j][i] = NN[i][j];
-                if (NN[i][j] == 1){
-                    node[i].neighbor.push_back(j);
-                    node[j].neighbor.push_back(i);
+    if (TOPOLOGY == 1){
+    for (int i = BS; i<(N + BS); i++){
+        for (int bs = 0; bs < BS; bs ++){   // calc BS's neigbor
+            NN[bs][i] = IsNeighbor(bs, i);
+            NN[i][bs] = NN[bs][i];
+            if (NN[bs][i] == 1){
+                node[bs].neighbor.push_back(i);
+                node[i].neighbor.push_back(bs);
+            }
+        }
+        
+        for (int r = i - sqrtN * R_C; r <= i + sqrtN * R_C; r += sqrtN){
+            for (int c = r - R_C; c <= r + R_C; c++){
+                if (c >= BS  && c < (N+BS) && i != c){
+                    if (NN[i][c] < 0){     // Not Calculated
+                        NN[i][c] = IsNeighbor(i, c);   // Input 1 or 0
+                        NN[c][i] = NN[i][c];
+                        if (NN[i][c] == 1){
+                            node[i].neighbor.push_back(c);
+                            node[c].neighbor.push_back(i);
+                        }
+                    }
                 }
             }
         }
+    }
     }
 }
 
@@ -144,10 +176,15 @@ void SetDst(int staying, int pop){
 
 
 void SetMaxDst(){
+    if (TOPOLOGY == 1){
+        MaxDst = node[BS].dst;
+    }
+    else {
     for (int i = 0; i < N + BS; i++){
         if (node[i].dst > MaxDst)
             MaxDst = node[i].dst;
     }
+}
 }
 
 
@@ -189,142 +226,6 @@ void SetProbablity(){
     
 }
 
-
-//int GetNextDst(int sender){
-//	if (ALG == 123){
-//		if (node[sender].dst != 1){
-//			int tmp_dst = node[sender].dst;
-//			vector<int> can_u, can_s, can_l;
-//			vector<int>::iterator i;
-//
-//
-//			for (i = node[sender].neighbor.begin(); i != node[sender].neighbor.end(); i++){
-//				if (node[*i].dst == (node[sender].dst - 1) && !Dead[*i])
-//					can_u.push_back(*i);
-//				else if (node[*i].dst == (node[sender].dst) && !Dead[*i])
-//					can_s.push_back(*i);
-//				else if (node[*i].dst == (node[sender].dst + 1) && !Dead[*i])
-//					can_l.push_back(*i);
-//			}
-//
-//			if (!can_u.empty() && P[tmp_dst][0]>0){
-//				if (!can_s.empty() && P[tmp_dst][1]>0){
-//					if (!can_l.empty() && P[tmp_dst][2]>0){
-//						double tmp_p = (double)rand() / RAND_MAX;
-//
-//						if (tmp_p < P[tmp_dst][0])
-//							return can_u[rand() % can_u.size()];
-//						else
-//							if (tmp_p < P[tmp_dst][0] + P[tmp_dst][1])
-//								return can_s[rand() % can_s.size()];
-//							else
-//								return can_l[rand() % can_l.size()];
-//					}
-//					else {
-//						double tmp_p = (double)rand() / RAND_MAX * (P[tmp_dst][0] + P[tmp_dst][1]);
-//
-//						if (tmp_p < P[tmp_dst][0])
-//							return can_u[rand() % can_u.size()];
-//						else
-//							if (tmp_p < P[tmp_dst][0] + P[tmp_dst][1])
-//								return can_s[rand() % can_s.size()];
-//							else
-//								return -1;  // Something Wrong!
-//					}
-//				}
-//				else if (!can_l.empty() && P[tmp_dst][2]>0){
-//					double tmp_p = (double)rand() / RAND_MAX * (P[tmp_dst][0] + P[tmp_dst][2]);
-//
-//					if (tmp_p < P[tmp_dst][0])
-//						return can_u[rand() % can_u.size()];
-//					else
-//						if (tmp_p < P[tmp_dst][0] + P[tmp_dst][2])
-//							return can_l[rand() % can_l.size()];
-//						else
-//							return -1;  // Something Wrong!
-//				}
-//				else
-//					return can_u[rand() % can_u.size()];
-//			}
-//			else
-//				if (!can_s.empty() && P[tmp_dst][1]>0){
-//					if (!can_l.empty() && P[tmp_dst][2]>0){
-//
-//						double tmp_p = (double)rand() / RAND_MAX * (P[tmp_dst][1] + P[tmp_dst][2]);
-//
-//						if (tmp_p < P[tmp_dst][1])
-//							return can_s[rand() % can_s.size()];
-//						else
-//							if (tmp_p < P[tmp_dst][1] + P[tmp_dst][2])
-//								return can_l[rand() % can_l.size()];
-//							else
-//								return -1;  // Something Wrong!
-//					}
-//					else
-//						return can_s[rand() % can_s.size()];
-//				}
-//				else if (!can_l.empty() && P[tmp_dst][2]>0){
-//					return can_l[rand() % can_l.size()];
-//
-//				}
-//				else
-//					return -1;  // No Neighbors Alive
-//		}
-//		else return 0;
-//	}
-//	else
-//		if (ALG == 3){     // Shortest Path alg
-//			vector<int> can_dst;
-//			vector<int>::iterator i;
-//
-//			for (i = node[sender].neighbor.begin(); i != node[sender].neighbor.end(); i++){
-//				if (node[*i].dst == (node[sender].dst - 1)
-//					&& !Dead[*i])
-//					can_dst.push_back(*i);
-//			}
-//			if (!can_dst.empty())   // All Candidate Nodes are Dead
-//				return can_dst[rand() % can_dst.size()];
-//			else return -1;
-//		}
-//		else
-//			if (ALG == 2){    // Probability Computation will be done at First
-//				if (node[sender].dst != 1){
-//					int tmp_dst = node[sender].dst;
-//					vector<int> can_dst;
-//					vector<int>::iterator i;
-//
-//					double tmp_p = (double)rand() / RAND_MAX;
-//
-//					if (tmp_p < P[tmp_dst][0]){
-//						for (i = node[sender].neighbor.begin(); i != node[sender].neighbor.end(); i++) {
-//							if (node[*i].dst == (node[sender].dst - 1) && !Dead[*i])
-//								can_dst.push_back(*i);
-//						}
-//					}
-//					else
-//						if (tmp_p < P[tmp_dst][0] + P[tmp_dst][1]){
-//							for (i = node[sender].neighbor.begin(); i != node[sender].neighbor.end(); i++) {
-//								if (node[*i].dst == (node[sender].dst) && !Dead[*i])
-//									can_dst.push_back(*i);
-//							}
-//						}
-//
-//						else {
-//							for (i = node[sender].neighbor.begin(); i != node[sender].neighbor.end(); i++){
-//								if (node[*i].dst == (node[sender].dst + 1) && !Dead[*i])
-//									can_dst.push_back(*i);
-//							}
-//						}
-//
-//						if (!can_dst.empty())
-//							return can_dst[rand() % can_dst.size()];
-//						else return -1;
-//
-//				}
-//				else return 0;
-//			}
-//
-//}
 
 
 int GetNextDst(int sender){
@@ -588,6 +489,24 @@ int main() {
          outfile << endl;
          }*/
         
+        
+        InitVar();
+        if (DbgMode == 1)
+            cout << "Variable Initiation Completed." << endl;
+        
+        for (int i = 0; i < (N + BS); i++)
+            InitNode(i);
+        if (DbgMode == 1)
+            cout << "Node Initiation Completed." << endl;
+        
+        CreateGraph();
+        if (DbgMode == 1)
+            cout << "New Graph Created." << endl;
+        SetDst(0, 0);
+        SetMaxDst();
+        if (DbgMode == 1)
+            cout << "Depth of Each Node Caliculated." << endl;
+        
         ALG = 0;
         while (Rpt < RUN){
             //do {
@@ -600,25 +519,9 @@ int main() {
                         if (DbgMode == 2)
                             outfile << "***** " << Rpt << "(/100)th Running *****" << endl;
                         
-                        InitVar();   // Initiation variables
+                        Reset();   // Reset variables
                         if (DbgMode == 1)
-                            cout << "Variable Initiation Completed." << endl;
-                        
-                        
-                        // INITIATION of Nodes and Base Station and CREATION Graph
-                        for (int i = 0; i < (N + BS); i++)
-                            InitNode(i);
-                        if (DbgMode == 1)
-                            cout << "Node Initiation Completed." << endl;
-                        
-                        CreateGraph();
-                        if (DbgMode == 1)
-                            cout << "New Graph Created." << endl;
-                        
-                        SetDst(0, 0);
-                        SetMaxDst();
-                        if (DbgMode == 1)
-                            cout << "Depth of Each Node Caliculated." << endl;
+                            cout << "Reset Variable Completed." << endl;
                     }
                     else {
                         for (int i = 0; i < (N + BS); i++){
@@ -693,7 +596,7 @@ int main() {
                         }
                         else
                             if (TRGPTN == 222){
-
+                                
                                 CountR++;
                                 if (Fixed_Sender == -1 || // initiated status
                                     // Dead[Fixed_Sender] ||
