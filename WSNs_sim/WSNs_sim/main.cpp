@@ -692,7 +692,7 @@ int main() {
         sprintf(buff, "%04d/%02d/%02d %02d:%02d:%02d", pnow->tm_year + 1900, pnow->tm_mon + 1, pnow->tm_mday,
                 pnow->tm_hour, pnow->tm_min, pnow->tm_sec);
         
-        for (double tmp_dl = DL_BEGIN; tmp_dl < DL_END + DL_INTERVAL; tmp_dl += DL_INTERVAL){
+        for (double tmp_dl = (double)(int)(DL_BEGIN+0.5); tmp_dl <= (double)(int)(DL_END+0.5); tmp_dl += DL_INTERVAL){
             
             //ALG == 0
             cout << endl;
@@ -717,7 +717,7 @@ int main() {
             ALG = (ALG + 1) % ALG_NUM;
             
             //ALG == 1
-            for (double tmp_co = CO_BEGIN; tmp_co < CO_END + CO_INTERVAL; tmp_co += CO_INTERVAL){
+            for (double tmp_co = (double)(int)(CO_BEGIN+0.5); tmp_co <= (double)(int)(CO_END+0.5); tmp_co += CO_INTERVAL){
                 cout << endl;
                 cout << "----- Total Result -----" << endl;
                 cout << "Algorithm ID : " << ALG << endl;
@@ -740,7 +740,7 @@ int main() {
             ALG = (ALG + 1) % ALG_NUM;
             
             //ALG == 2
-            for (double tmp_co = CO_BEGIN; tmp_co < CO_END+CO_INTERVAL; tmp_co += CO_INTERVAL){
+            for (double tmp_co = (double)(int)(CO_BEGIN+0.5); tmp_co <= (double)(int)(CO_END+0.5); tmp_co += CO_INTERVAL){
                 cout << endl;
                 cout << "----- Total Result -----" << endl;
                 cout << "Algorithm ID : " << ALG << endl;
