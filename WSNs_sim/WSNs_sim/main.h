@@ -38,15 +38,15 @@ using namespace std;
 /*************************************************
  Experimental Parameters
  *************************************************/
-#define N 2500        // Number of Nodes
+#define N 100        // Number of Nodes
                     // x^2(must be SQUARE VALUE) : Grid Topology Mode
                     // Other value : Random Topology Mode
 int sqrtN = (int)(sqrt(N)+0.5);
 #define TOPOLOGY 1  // 0 : Random, 1 : Grid
 #define ROUND 10000     // Number of Total Rounds
 #define MAX_E 2.0   // Maximum Energy of nodes
-#define AREA_W 49.0  // Area Width
-#define AREA_D 49.0  // Area Depth
+#define AREA_W 9.0  // Area Width
+#define AREA_D 9.0  // Area Depth
 int R_C;   // Communication Range (Radius)
 #define R_S 10.0   // Sensing Range (Radius)
 #define L 4000     // Bit-long of Message
@@ -65,16 +65,20 @@ int ALG;    // 123:Random alg 3:Shortest Path alg
 
 // Set Coefficient Number
 // Dont Set 0 !!
-double CO_BEGIN = 1.0;
-double CO_END = 2.0;
+double CO_BEGIN = 2.0;
+double CO_END = 3.0;
+//double CO_BEGIN = 1.0;
+//double CO_END = 1.2;
 double CO_INTERVAL = 0.10;
 double CO = CO_BEGIN;  
 
-#define RUN 10    // Experimental Running Times
+#define RUN 1    // Experimental Running Times
 
 double DL_BEGIN = 0.30;
 double DL_END = 0.90;
-double DL_INTERVAL = 0.1;
+//double DL_BEGIN = 0.80;
+//double DL_END = 0.90;
+double DL_INTERVAL = 0.10;
 double DL = DL_BEGIN;  // Deadline Rounds of Single Running
 
 
@@ -130,6 +134,8 @@ int DeadCounta;
 int Rpt = 0;
 //#define Sim_Type_Num (((ALG_NUM - 2) + (((int)((CO_END - CO_BEGIN)/CO_INTERVAL) + 1)*2))*((int)((DL_END - DL_BEGIN)/DL_INTERVAL) + 1))
 #define Sim_Type_Num 168
+//#define Sim_Type_Num 16
+
 int OP_R[Sim_Type_Num]; // Round Count
 int OP_TMSG[Sim_Type_Num];	// Total MSG Count
 int OP_LMSG[Sim_Type_Num];	// Lost MSG Count
