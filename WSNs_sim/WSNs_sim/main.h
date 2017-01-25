@@ -65,14 +65,14 @@ int ALG;    // 123:Random alg 3:Shortest Path alg
 
 // Set Coefficient Number
 // Dont Set 0 !!
-double CO_BEGIN = 2.0;
+double CO_BEGIN = 1.0;
 double CO_END = 3.0;
 //double CO_BEGIN = 1.0;
 //double CO_END = 1.2;
 double CO_INTERVAL = 0.10;
 double CO = CO_BEGIN;  
 
-#define RUN 1    // Experimental Running Times
+#define RUN 10    // Experimental Running Times
 
 double DL_BEGIN = 0.30;
 double DL_END = 0.90;
@@ -133,8 +133,8 @@ bool Term;  // Termination Flag
 int DeadCounta;
 int Rpt = 0;
 //#define Sim_Type_Num (((ALG_NUM - 2) + (((int)((CO_END - CO_BEGIN)/CO_INTERVAL) + 1)*2))*((int)((DL_END - DL_BEGIN)/DL_INTERVAL) + 1))
-#define Sim_Type_Num 168
-//#define Sim_Type_Num 16
+//#define Sim_Type_Num 168
+#define Sim_Type_Num 308
 
 int OP_R[Sim_Type_Num]; // Round Count
 int OP_TMSG[Sim_Type_Num];	// Total MSG Count
