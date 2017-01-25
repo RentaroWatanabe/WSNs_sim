@@ -19,7 +19,7 @@
 void InitNode(int i){
     node[i].id = i;
     
-    // Set Location
+    // Set Locationdfgdg
     
     
     if (i < BS){
