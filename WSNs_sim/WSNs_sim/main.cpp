@@ -459,7 +459,8 @@ void ForwardMsg(int sender){
 
 
 int main() {
-    Seed = (unsigned int)time(0);
+//    Seed = (unsigned int)time(0);
+    Seed = 1485332344;
     srand(Seed);
     
     if (infile.fail()) {
@@ -512,6 +513,11 @@ int main() {
             //do {
             while (DL_END + DL_INTERVAL - DL > 0.000001){
                 do {
+                    
+                    if (ALG == 1){
+                        cout << "" << endl;
+                    }
+                    
                     if (ALG == 0 && DL == DL_BEGIN){
                         if (DbgMode == 1)
                             cout << Rpt << "th Running" << endl;
@@ -604,7 +610,7 @@ int main() {
                                     
                                     rs++;
                                     if ((rs + 1) > (int)Reserved_Sender.size()){
-                                        Reserved_Sender.push_back((rand() % N) + 1);
+                                        Reserved_Sender.push_back((rand() % N) + BS);
                                     }
                                     Fixed_Sender = Reserved_Sender[rs];
                                     if (DbgMode == 2){
