@@ -102,11 +102,16 @@ int NO;		// Input Running Number from "parameter.txt"
 ifstream infile("parameters.txt");
 // Open Output File
 ofstream outfile("result.txt");
+ofstream logfile("log.txt");
 
 // Input Variable about using status
 // 1 means Use Straged Status;
 // 0 means Reset and Generate Status;
 bool RESERVING_STATUS;
+
+//Monitoring Value
+#define monNO 1
+#define monALG 0
 
 
 
