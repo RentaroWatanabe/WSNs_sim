@@ -285,3 +285,5 @@ WSNs_sim/WSNs_sim/WSNs_sim.userprefs
 WSNs_sim/WSNs_sim/Debug/WSNs_sim.ilk
 WSNs_sim/WSNs_sim/Debug/WSNs_sim.exe
 WSNs_sim.xcodeproj/
+.DS_Store
+WSN_sim/.DS_Store
