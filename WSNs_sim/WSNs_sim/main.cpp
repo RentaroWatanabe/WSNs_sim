@@ -19,7 +19,7 @@
 void InitNode(int i){
     node[i].id = i;
     
-    // Set Location
+    // Set Locationdfgdg
     
     
     if (i < BS){
@@ -77,7 +77,7 @@ void Reset(){
     //Reserved_Sender.erase(Reserved_Sender.begin(), Reserved_Sender.end());
     Reserved_Sender.clear();
     //vector<int> (Reserved_Sender).swap(Reserved_Sender);
-
+    
     for (int i = 0; i< N + BS; i++){
         node[i].resE = MAX_E;
         Dead[i] = 0;
@@ -126,31 +126,31 @@ double Cutback(double p){
 void CreateGraph(){     // Set NN  -1:Self Node 0:DISconnected 1:Connected
     
     if (TOPOLOGY == 1){
-    for (int i = BS; i<(N + BS); i++){
-        for (int bs = 0; bs < BS; bs ++){   // calc BS's neigbor
-            NN[bs][i] = IsNeighbor(bs, i);
-            NN[i][bs] = NN[bs][i];
-            if (NN[bs][i] == 1){
-                node[bs].neighbor.push_back(i);
-                node[i].neighbor.push_back(bs);
+        for (int i = BS; i<(N + BS); i++){
+            for (int bs = 0; bs < BS; bs ++){   // calc BS's neigbor
+                NN[bs][i] = IsNeighbor(bs, i);
+                NN[i][bs] = NN[bs][i];
+                if (NN[bs][i] == 1){
+                    node[bs].neighbor.push_back(i);
+                    node[i].neighbor.push_back(bs);
+                }
             }
-        }
-        
-        for (int r = i - sqrtN * R_C; r <= i + sqrtN * R_C; r += sqrtN){
-            for (int c = r - R_C; c <= r + R_C; c++){
-                if (c >= BS  && c < (N+BS) && i != c){
-                    if (NN[i][c] < 0){     // Not Calculated
-                        NN[i][c] = IsNeighbor(i, c);   // Input 1 or 0
-                        NN[c][i] = NN[i][c];
-                        if (NN[i][c] == 1){
-                            node[i].neighbor.push_back(c);
-                            node[c].neighbor.push_back(i);
+            
+            for (int r = i - sqrtN * R_C; r <= i + sqrtN * R_C; r += sqrtN){
+                for (int c = r - R_C; c <= r + R_C; c++){
+                    if (c >= BS  && c < (N+BS) && i != c){
+                        if (NN[i][c] < 0){     // Not Calculated
+                            NN[i][c] = IsNeighbor(i, c);   // Input 1 or 0
+                            NN[c][i] = NN[i][c];
+                            if (NN[i][c] == 1){
+                                node[i].neighbor.push_back(c);
+                                node[c].neighbor.push_back(i);
+                            }
                         }
                     }
                 }
             }
         }
-    }
     }
 }
 
@@ -180,11 +180,11 @@ void SetMaxDst(){
         MaxDst = node[BS].dst;
     }
     else {
-    for (int i = 0; i < N + BS; i++){
-        if (node[i].dst > MaxDst)
-            MaxDst = node[i].dst;
+        for (int i = 0; i < N + BS; i++){
+            if (node[i].dst > MaxDst)
+                MaxDst = node[i].dst;
+        }
     }
-}
 }
 
 
@@ -459,7 +459,8 @@ void ForwardMsg(int sender){
 
 
 int main() {
-    Seed = (unsigned int)time(0);
+//    Seed = (unsigned int)time(0);
+    Seed = 1485332344;
     srand(Seed);
     
     if (infile.fail()) {
@@ -512,6 +513,11 @@ int main() {
             //do {
             while (DL_END + DL_INTERVAL - DL > 0.000001){
                 do {
+                    
+                    if (ALG == 1){
+                        cout << "" << endl;
+                    }
+                    
                     if (ALG == 0 && DL == DL_BEGIN){
                         if (DbgMode == 1)
                             cout << Rpt << "th Running" << endl;
@@ -604,7 +610,7 @@ int main() {
                                     
                                     rs++;
                                     if ((rs + 1) > (int)Reserved_Sender.size()){
-                                        Reserved_Sender.push_back((rand() % N) + 1);
+                                        Reserved_Sender.push_back((rand() % N) + BS);
                                     }
                                     Fixed_Sender = Reserved_Sender[rs];
                                     if (DbgMode == 2){
@@ -692,7 +698,7 @@ int main() {
         sprintf(buff, "%04d/%02d/%02d %02d:%02d:%02d", pnow->tm_year + 1900, pnow->tm_mon + 1, pnow->tm_mday,
                 pnow->tm_hour, pnow->tm_min, pnow->tm_sec);
         
-        for (double tmp_dl = DL_BEGIN; tmp_dl < DL_END + DL_INTERVAL; tmp_dl += DL_INTERVAL){
+        for (double tmp_dl = DL_BEGIN; DL_END - tmp_dl > -0.001; tmp_dl += DL_INTERVAL){
             
             //ALG == 0
             cout << endl;
@@ -717,7 +723,7 @@ int main() {
             ALG = (ALG + 1) % ALG_NUM;
             
             //ALG == 1
-            for (double tmp_co = CO_BEGIN; tmp_co < CO_END + CO_INTERVAL; tmp_co += CO_INTERVAL){
+            for (double tmp_co = CO_BEGIN; CO_END - tmp_co > -0.001; tmp_co += CO_INTERVAL){
                 cout << endl;
                 cout << "----- Total Result -----" << endl;
                 cout << "Algorithm ID : " << ALG << endl;
@@ -740,7 +746,7 @@ int main() {
             ALG = (ALG + 1) % ALG_NUM;
             
             //ALG == 2
-            for (double tmp_co = CO_BEGIN; tmp_co < CO_END+CO_INTERVAL; tmp_co += CO_INTERVAL){
+            for (double tmp_co = CO_BEGIN; CO_END - tmp_co > -0.001; tmp_co += CO_INTERVAL){
                 cout << endl;
                 cout << "----- Total Result -----" << endl;
                 cout << "Algorithm ID : " << ALG << endl;
