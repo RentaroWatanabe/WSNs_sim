@@ -399,6 +399,9 @@ void ForwardMsg(int sender){
 			outfile << endl;
 			outfile << "Message Lost. [" << CountR << "]" << endl;
 		}
+		if (monNO == -1){
+			logfile << "LOST in " << Fixed_Sender << endl;
+		}
 	}
 	else
 		if ((sender != 0) && (Dead[sender]))  // Dead Node
@@ -410,6 +413,10 @@ void ForwardMsg(int sender){
 				outfile << endl;
 				outfile << "Message Lost. [" << CountR << "]" << endl;
 			}
+			if (monNO == -1){
+				logfile << "LOST in " << Fixed_Sender << endl;
+			}
+
 		}
 		else if (node[sender].dst < 0){     // Disconnected Node
 			LostTrg++;
@@ -419,6 +426,10 @@ void ForwardMsg(int sender){
 				outfile << endl;
 				outfile << "Message Lost. [" << CountR << "]" << endl;
 			}
+			if (monNO == -1){
+				logfile << "LOST in " << Fixed_Sender << endl;
+			}
+
 			//EnergyConsume(sender, -1);
 		}
 		else {   //Connected Node
@@ -436,6 +447,10 @@ void ForwardMsg(int sender){
 						outfile << endl;
 						outfile << "Message Lost. [" << CountR << "]" << endl;
 					}
+					if (monNO == -1){
+						logfile << "LOST in " << Fixed_Sender << endl;
+					}
+
 					return;
 				}
 				if (ViewPath == 1)
@@ -454,6 +469,10 @@ void ForwardMsg(int sender){
 						outfile << endl;
 						outfile << "Message Lost. [" << CountR << "]" << endl;
 					}
+					if (monNO == -1){
+						logfile << "LOST in " << Fixed_Sender << endl;
+					}
+
 					return;
 				}
 			}
@@ -466,18 +485,32 @@ void ForwardMsg(int sender){
 				outfile << endl;
 				outfile << "BS received message. [" << CountR << "]" << endl;
 			}
+			if (monNO == -1){
+				logfile << "SUCCESSED in " << Fixed_Sender << endl;
+			}
+
 		}
+}
+
+
+
+//return whether the neighbors of BS are still exist at least one
+bool ConnectToBS(int bs){
+	vector<int>::iterator i;
+	for (i = node[bs].neighbor.begin(); i != node[bs].neighbor.end(); i++){
+		if (!Dead[*i])
+			return true;
+	}
+	return false;
 }
 
 
 
 
 
-
-
 int main() {
-	//    Seed = (unsigned int)time(0);
-	Seed = 1485332344;
+	Seed = (unsigned int)time(0);
+	//Seed = 1485332344;
 	srand(Seed);
 
 	if (infile.fail()) {
@@ -583,6 +616,11 @@ int main() {
 
 					while (!Term){     // Main Loop
 						pair<double, double> trg_location;
+						
+						// DEBUG PROCESS
+						//for (int i = 0; i <= BS; i++)
+						//	if (!ConnectToBS(i))
+						//		cout << "alert!!!!" << endl;
 
 						if (TRGPTN == 111){   // AppMSG Occurs Uniformly
 							trg_location.first = fmod(rand(), AREA_W);
@@ -662,6 +700,12 @@ int main() {
 									totalR += node[i].resE;
 								}
 								logfile << "Total Residual Energy : " << totalR << endl;
+							}
+
+							if (monNO == -1){
+								logfile << endl << endl << endl << endl << endl;
+								logfile << "---------------------" << endl;
+								logfile << endl << endl << endl << endl << endl;
 							}
 						}
 						if (DbgMode == 1){

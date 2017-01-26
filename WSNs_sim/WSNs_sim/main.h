@@ -65,20 +65,15 @@ int ALG;    // 123:Random alg 3:Shortest Path alg
 
 // Set Coefficient Number
 // Dont Set 0 !!
-double CO_BEGIN = 1.0;
-//double CO_END = 3.0;
-double CO_END = 1.0;
-//double CO_BEGIN = 1.0;
-//double CO_END = 1.2;
-double CO_INTERVAL = 0.10;
+double CO_BEGIN = 1.1;
+double CO_END = 1.1;
+double CO_INTERVAL = 0.11;
 double CO = CO_BEGIN;  
 
-#define RUN 1    // Experimental Running Times
+#define RUN 100    // Experimental Running Times
 
-double DL_BEGIN = 0.90;
-double DL_END = 0.90;
-//double DL_BEGIN = 0.80;
-//double DL_END = 0.90;
+double DL_BEGIN = 0.80;
+double DL_END = 0.80;
 double DL_INTERVAL = 0.10;
 double DL = DL_BEGIN;  // Deadline Rounds of Single Running
 
