@@ -65,20 +65,15 @@ int ALG;    // 123:Random alg 3:Shortest Path alg
 
 // Set Coefficient Number
 // Dont Set 0 !!
-double CO_BEGIN = 1.0;
-//double CO_END = 3.0;
-double CO_END = 1.0;
-//double CO_BEGIN = 1.0;
-//double CO_END = 1.2;
+double CO_BEGIN = 1.1;
+double CO_END = 1.1;
 double CO_INTERVAL = 0.10;
 double CO = CO_BEGIN;  
 
 #define RUN 1    // Experimental Running Times
 
-double DL_BEGIN = 0.90;
+double DL_BEGIN = 0.30;
 double DL_END = 0.90;
-//double DL_BEGIN = 0.80;
-//double DL_END = 0.90;
 double DL_INTERVAL = 0.10;
 double DL = DL_BEGIN;  // Deadline Rounds of Single Running
 
@@ -110,7 +105,7 @@ ofstream logfile("log.txt");
 bool RESERVING_STATUS;
 
 //Monitoring Value
-#define monNO 1
+#define monNO 5
 #define monALG 0
 
 
@@ -142,7 +137,7 @@ int Rpt = 0;
 //#define Sim_Type_Num 168
 
 //#define Sim_Type_Num 308
-#define Sim_Type_Num 4
+#define Sim_Type_Num 28
 
 int OP_R[Sim_Type_Num]; // Round Count
 int OP_TMSG[Sim_Type_Num];	// Total MSG Count
