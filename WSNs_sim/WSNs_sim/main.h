@@ -70,7 +70,7 @@ double CO_END = 2.0;
 double CO_INTERVAL = 0.10;
 double CO = CO_BEGIN;  
 
-#define RUN 100    // Experimental Running Times
+#define RUN 10    // Experimental Running Times
 
 double DL_BEGIN = 0.30;
 double DL_END = 0.90;
