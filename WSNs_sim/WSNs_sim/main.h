@@ -38,33 +38,15 @@ using namespace std;
 /*************************************************
  Experimental Parameters
  *************************************************/
-<<<<<<< HEAD
 #define N 121        // Number of Nodes
-=======
-<<<<<<< HEAD
-#define N 2500        // Number of Nodes
-=======
-#define N 121        // Number of Nodes
->>>>>>> b589d2e9acad63f391b5fa0ab3bea7130c60f9bb
->>>>>>> fca37f983b3cbe4340485ec36c7326562c5fd67d
                     // x^2(must be SQUARE VALUE) : Grid Topology Mode
                     // Other value : Random Topology Mode
 int sqrtN = (int)(sqrt(N)+0.5);
 #define TOPOLOGY 1  // 0 : Random, 1 : Grid
 #define ROUND 10000     // Number of Total Rounds
 #define MAX_E 2.0   // Maximum Energy of nodes
-<<<<<<< HEAD
 #define AREA_W 10.0  // Area Width
 #define AREA_D 10.0  // Area Depth
-=======
-<<<<<<< HEAD
-#define AREA_W 49.0  // Area Width
-#define AREA_D 49.0  // Area Depth
-=======
-#define AREA_W 10.0  // Area Width
-#define AREA_D 10.0  // Area Depth
->>>>>>> b589d2e9acad63f391b5fa0ab3bea7130c60f9bb
->>>>>>> fca37f983b3cbe4340485ec36c7326562c5fd67d
 int R_C;   // Communication Range (Radius)
 #define R_S 10.0   // Sensing Range (Radius)
 #define L 4000     // Bit-long of Message
@@ -86,21 +68,9 @@ int ALG;    // 123:Random alg 3:Shortest Path alg
 double CO_BEGIN = 1.0;
 double CO_END = 2.0;
 double CO_INTERVAL = 0.10;
-<<<<<<< HEAD
 double CO = CO_BEGIN;
 
 #define RUN 10    // Experimental Running Times
-=======
-<<<<<<< HEAD
-double CO = CO_BEGIN;
-
-#define RUN 1    // Experimental Running Times
-=======
-double CO = CO_BEGIN;  
-
-#define RUN 10    // Experimental Running Times
->>>>>>> b589d2e9acad63f391b5fa0ab3bea7130c60f9bb
->>>>>>> fca37f983b3cbe4340485ec36c7326562c5fd67d
 
 double DL_BEGIN = 0.30;
 double DL_END = 0.90;
