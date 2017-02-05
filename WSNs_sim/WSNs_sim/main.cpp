@@ -28,7 +28,7 @@ void InitNode(int i){
 		Location[i] = node[i].location;
 		node[i].isbs = 1;
 		node[i].dst = 0;
-	}
+	} 
 	else{
 		if (TOPOLOGY == 0){ //Random Topology Mode
 			node[i].location.first = fmod(rand(), AREA_W * 100) / 100;
