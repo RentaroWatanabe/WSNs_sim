@@ -524,49 +524,55 @@ void OutPutNS(int r){
 
 	if (ALG == 0){
 		if (OP_NS_0.size() < r){
-			pair<int, double> empty;
-			empty.first = 0;
-			empty.second = 0.0;
+			tuple<int, double, int> empty;
+			get<0>(empty) = 0;
+			get<1>(empty) = 0.0;
+            get<2>(empty) = 0;
 
 			OP_NS_0.push_back(empty);
 		}
-		OP_NS_0[r - 1].first += (N - DeadCounta);
-		OP_NS_0[r - 1].second += TotalE;
+		get<0>(OP_NS_0[r - 1]) += (N - DeadCounta);
+		get<1>(OP_NS_0[r - 1]) += TotalE;
+        get<2>(OP_NS_0[r - 1])++;
 
 	}
 	else if (ALG == 1){
 		if (OP_NS_1.size() < r){
-			pair<int, double> empty;
-			empty.first = 0;
-			empty.second = 0;
-
-			OP_NS_1.push_back(empty);
-		}
-        OP_NS_0[r - 1].first += (N - DeadCounta);
-        OP_NS_0[r - 1].second += TotalE;
+            tuple<int, double, int> empty;
+            get<0>(empty) = 0;
+            get<1>(empty) = 0.0;
+            get<2>(empty) = 0;
+            
+            OP_NS_0.push_back(empty);
+        }
+        get<0>(OP_NS_0[r - 1]) += (N - DeadCounta);
+        get<1>(OP_NS_0[r - 1]) += TotalE;
+        get<2>(OP_NS_0[r - 1])++;
     }
 	else if (ALG == 2){
 		if (OP_NS_2.size() < r){
-			pair<int, double> empty;
-			empty.first = 0;
-			empty.second = 0;
-
-			OP_NS_2.push_back(empty);
-		}
-        OP_NS_0[r - 1].first += (N - DeadCounta);
-        OP_NS_0[r - 1].second += TotalE;
+            tuple<int, double, int> empty;
+            get<0>(empty) = 0;
+            get<1>(empty) = 0.0;
+            get<2>(empty) = 0;
+            
+            OP_NS_0.push_back(empty);
+        }
+        get<0>(OP_NS_0[r - 1]) += (N - DeadCounta);
+        get<1>(OP_NS_0[r - 1]) += TotalE;
+        get<2>(OP_NS_0[r - 1])++;
     }
 	else{
-		if (OP_NS_3.size() < r){
-			pair<int, double> empty;
-			empty.first = 0;
-			empty.second = 0;
-
-			OP_NS_3.push_back(empty);
-		}
-        OP_NS_0[r - 1].first += (N - DeadCounta);
-        OP_NS_0[r - 1].second += TotalE;
+        tuple<int, double, int> empty;
+        get<0>(empty) = 0;
+        get<1>(empty) = 0.0;
+        get<2>(empty) = 0;
+        
+        OP_NS_0.push_back(empty);
     }
+    get<0>(OP_NS_0[r - 1]) += (N - DeadCounta);
+    get<1>(OP_NS_0[r - 1]) += TotalE;
+    get<2>(OP_NS_0[r - 1])++;
 }
 
 
@@ -943,24 +949,24 @@ int main() {
 	if (monNS == 1){	//output monitored network status data
 		int index = 0;
 		while (OP_NS_0.size() > index){
-			fileNS << "0 " << (index + 1) * step << " " << (double)OP_NS_0[index].first / RUN << " " << OP_NS_0[index].second / RUN << endl;
+			fileNS << "0 " << (index + 1) * step << " " << (double)get<0>(OP_NS_0[index]) / get<2>(OP_NS_0[index]) << " " << get<1>(OP_NS_0[index]) / get<2>(OP_NS_0[index]) << endl;
 			index++;
 		}
 		index = 0;
 		while (OP_NS_1.size() > index){
-			fileNS << "1 " << (index + 1) * step << " " << (double)OP_NS_1[index].first / RUN << " " << OP_NS_1[index].second / RUN << endl;
-			index++;
-		}
+            fileNS << "0 " << (index + 1) * step << " " << (double)get<0>(OP_NS_1[index]) / get<2>(OP_NS_1[index]) << " " << get<1>(OP_NS_1[index]) / get<2>(OP_NS_1[index]) << endl;
+            index++;
+        }
 		index = 0;
 		while (OP_NS_2.size() > index){
-			fileNS << "2 " << (index + 1) * step << " " << (double)OP_NS_2[index].first / RUN << " " << OP_NS_2[index].second / RUN << endl;
-			index++;
-		}
+            fileNS << "0 " << (index + 1) * step << " " << (double)get<0>(OP_NS_2[index]) / get<2>(OP_NS_2[index]) << " " << get<1>(OP_NS_2[index]) / get<2>(OP_NS_2[index]) << endl;
+            index++;
+        }
 		index = 0;
 		while (OP_NS_3.size() > index){
-			fileNS << "1 " << (index + 1) * step << " " << (double)OP_NS_3[index].first / RUN << " " << OP_NS_3[index].second / RUN << endl;
-			index++;
-		}
+            fileNS << "0 " << (index + 1) * step << " " << (double)get<0>(OP_NS_3[index]) / get<2>(OP_NS_3[index]) << " " << get<1>(OP_NS_3[index]) / get<2>(OP_NS_3[index]) << endl;
+            index++;
+        }
 	}
 
 

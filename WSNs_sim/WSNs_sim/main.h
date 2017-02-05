@@ -145,11 +145,14 @@ int OP_LMSG[Sim_Type_Num];	// Lost MSG Count
 int OP_FWD[Sim_Type_Num];	// Fowarding Count
 int OP_PS[Sim_Type_Num];	// Routing Pass Count
 // pair<double, double> Trg_Point;
-vector<pair<int, double>> OP_NS_0;
-vector<pair<int, double>> OP_NS_1;
-vector<pair<int, double>> OP_NS_2;
-vector<pair<int, double>> OP_NS_3;
-	//Network Status (first:DeadNodeCounta, second:NetworkEnergy)
+vector<tuple<int, double, int>> OP_NS_0;
+vector<tuple<int, double, int>> OP_NS_1;
+vector<tuple<int, double, int>> OP_NS_2;
+vector<tuple<int, double, int>> OP_NS_3;
+	//Network Status
+    //(get<1>:DeadNodeCounta,
+    //get<2>:NetworkEnergy,
+    //get<3>:ExistedRunCount)
 	//each 100 rounds (refers ([index]+1)*100 round's status)
 
 int Fixed_Sender;
