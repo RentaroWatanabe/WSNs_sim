@@ -38,7 +38,7 @@ using namespace std;
 /*************************************************
  Experimental Parameters
  *************************************************/
-#define N 100        // Number of Nodes
+#define N 441        // Number of Nodes
                     // x^2(must be SQUARE VALUE) : Grid Topology Mode
                     // Other value : Random Topology Mode
 int sqrtN = (int)(sqrt(N)+0.5);
@@ -47,6 +47,8 @@ int sqrtN = (int)(sqrt(N)+0.5);
 #define MAX_E 2.0   // Maximum Energy of nodes
 #define AREA_W 9.0  // Area Width
 #define AREA_D 9.0  // Area Depth
+#define AREA_W 20.0  // Area Width
+#define AREA_D 20.0  // Area Depth
 int R_C;   // Communication Range (Radius)
 #define R_S 10.0   // Sensing Range (Radius)
 #define L 4000     // Bit-long of Message
@@ -98,6 +100,7 @@ ifstream infile("parameters.txt");
 // Open Output File
 ofstream outfile("result.txt");
 ofstream logfile("log.txt");
+ofstream fileNE("node_existence.txt");
 
 // Input Variable about using status
 // 1 means Use Straged Status;
