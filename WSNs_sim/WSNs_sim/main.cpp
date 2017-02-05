@@ -530,7 +530,7 @@ void OutPutNS(int r){
 
 			OP_NS_0.push_back(empty);
 		}
-		OP_NS_0[r - 1].first += DeadCounta;
+		OP_NS_0[r - 1].first += (N - DeadCounta);
 		OP_NS_0[r - 1].second += TotalE;
 
 	}
@@ -542,9 +542,9 @@ void OutPutNS(int r){
 
 			OP_NS_1.push_back(empty);
 		}
-		OP_NS_1[r - 1].first += DeadCounta;
-		OP_NS_1[r - 1].second += TotalE;
-	}
+        OP_NS_0[r - 1].first += (N - DeadCounta);
+        OP_NS_0[r - 1].second += TotalE;
+    }
 	else if (ALG == 2){
 		if (OP_NS_2.size() < r){
 			pair<int, double> empty;
@@ -553,9 +553,9 @@ void OutPutNS(int r){
 
 			OP_NS_2.push_back(empty);
 		}
-		OP_NS_2[r - 1].first += DeadCounta;
-		OP_NS_2[r - 1].second += TotalE;
-	}
+        OP_NS_0[r - 1].first += (N - DeadCounta);
+        OP_NS_0[r - 1].second += TotalE;
+    }
 	else{
 		if (OP_NS_3.size() < r){
 			pair<int, double> empty;
@@ -564,9 +564,9 @@ void OutPutNS(int r){
 
 			OP_NS_3.push_back(empty);
 		}
-		OP_NS_3[r - 1].first += DeadCounta;
-		OP_NS_3[r - 1].second += TotalE;
-	}
+        OP_NS_0[r - 1].first += (N - DeadCounta);
+        OP_NS_0[r - 1].second += TotalE;
+    }
 }
 
 
