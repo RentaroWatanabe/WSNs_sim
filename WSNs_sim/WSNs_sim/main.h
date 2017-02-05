@@ -38,15 +38,15 @@ using namespace std;
 /*************************************************
  Experimental Parameters
  *************************************************/
-#define N 961        // Number of Nodes
+#define N 441        // Number of Nodes
                     // x^2(must be SQUARE VALUE) : Grid Topology Mode
                     // Other value : Random Topology Mode
 int sqrtN = (int)(sqrt(N)+0.5);
 #define TOPOLOGY 1  // 0 : Random, 1 : Grid
 #define ROUND 10000     // Number of Total Rounds
 #define MAX_E 2.0   // Maximum Energy of nodes
-#define AREA_W 30.0  // Area Width
-#define AREA_D 30.0  // Area Depth
+#define AREA_W 20.0  // Area Width
+#define AREA_D 20.0  // Area Depth
 int R_C;   // Communication Range (Radius)
 #define R_S 10.0   // Sensing Range (Radius)
 #define L 4000     // Bit-long of Message
@@ -74,7 +74,7 @@ double CO = CO_BEGIN;
 
 double DL_BEGIN = 0.35;
 double DL_END = 0.65;
-double DL_INTERVAL =  0.05;
+double DL_INTERVAL = 0.05;
 double DL = DL_BEGIN;  // Deadline Rounds of Single Running
 
 
