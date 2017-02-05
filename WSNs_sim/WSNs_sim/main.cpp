@@ -543,11 +543,11 @@ void OutPutNS(int r){
             get<1>(empty) = 0.0;
             get<2>(empty) = 0;
             
-            OP_NS_0.push_back(empty);
+            OP_NS_1.push_back(empty);
         }
-        get<0>(OP_NS_0[r - 1]) += (N - DeadCounta);
-        get<1>(OP_NS_0[r - 1]) += TotalE;
-        get<2>(OP_NS_0[r - 1])++;
+        get<0>(OP_NS_1[r - 1]) += (N - DeadCounta);
+        get<1>(OP_NS_1[r - 1]) += TotalE;
+        get<2>(OP_NS_1[r - 1])++;
     }
 	else if (ALG == 2){
 		if (OP_NS_2.size() < r){
@@ -556,23 +556,25 @@ void OutPutNS(int r){
             get<1>(empty) = 0.0;
             get<2>(empty) = 0;
             
-            OP_NS_0.push_back(empty);
+            OP_NS_2.push_back(empty);
         }
-        get<0>(OP_NS_0[r - 1]) += (N - DeadCounta);
-        get<1>(OP_NS_0[r - 1]) += TotalE;
-        get<2>(OP_NS_0[r - 1])++;
+        get<0>(OP_NS_2[r - 1]) += (N - DeadCounta);
+        get<1>(OP_NS_2[r - 1]) += TotalE;
+        get<2>(OP_NS_2[r - 1])++;
     }
 	else{
-        tuple<int, double, int> empty;
-        get<0>(empty) = 0;
-        get<1>(empty) = 0.0;
-        get<2>(empty) = 0;
-        
-        OP_NS_0.push_back(empty);
-    }
-    get<0>(OP_NS_0[r - 1]) += (N - DeadCounta);
-    get<1>(OP_NS_0[r - 1]) += TotalE;
-    get<2>(OP_NS_0[r - 1])++;
+		if (OP_NS_3.size() < r){
+			tuple<int, double, int> empty;
+			get<0>(empty) = 0;
+			get<1>(empty) = 0.0;
+			get<2>(empty) = 0;
+
+			OP_NS_3.push_back(empty);
+		}
+		get<0>(OP_NS_3[r - 1]) += (N - DeadCounta);
+		get<1>(OP_NS_3[r - 1]) += TotalE;
+		get<2>(OP_NS_3[r - 1])++;
+	}
 }
 
 
