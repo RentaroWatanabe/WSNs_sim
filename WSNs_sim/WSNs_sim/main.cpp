@@ -74,6 +74,7 @@ void Reset(){
 	Fixed_Sender = -1;
 	Trg_Count = 1;
 	sim = 0;
+	DeadCounta = 0;
 	//Reserved_Sender.erase(Reserved_Sender.begin(), Reserved_Sender.end());
 	Reserved_Sender.clear();
 	//vector<int> (Reserved_Sender).swap(Reserved_Sender);
@@ -506,6 +507,67 @@ bool ConnectToBS(int bs){
 
 
 
+void CountDeadNode(){
+	int dead_tmp = 0;
+	for (int i = 0; i < N + BS; i++){
+		if (Dead[i]) dead_tmp++;
+	}
+	DeadCounta = dead_tmp;
+}
+
+
+
+void OutPutNS(int r){
+	double TotalE = 0;
+	for (int i = BS; i < N + BS; i++)
+		TotalE += node[i].resE;
+
+	if (ALG == 0){
+		if (OP_NS_0.size() < r){
+			pair<int, double> empty;
+			empty.first = 0;
+			empty.second = 0.0;
+
+			OP_NS_0.push_back(empty);
+		}
+		OP_NS_0[r - 1].first += DeadCounta;
+		OP_NS_0[r - 1].second += TotalE;
+
+	}
+	else if (ALG == 1){
+		if (OP_NS_1.size() < r){
+			pair<int, double> empty;
+			empty.first = 0;
+			empty.second = 0;
+
+			OP_NS_1.push_back(empty);
+		}
+		OP_NS_1[r - 1].first += DeadCounta;
+		OP_NS_1[r - 1].second += TotalE;
+	}
+	else if (ALG == 2){
+		if (OP_NS_2.size() < r){
+			pair<int, double> empty;
+			empty.first = 0;
+			empty.second = 0;
+
+			OP_NS_2.push_back(empty);
+		}
+		OP_NS_2[r - 1].first += DeadCounta;
+		OP_NS_2[r - 1].second += TotalE;
+	}
+	else{
+		if (OP_NS_3.size() < r){
+			pair<int, double> empty;
+			empty.first = 0;
+			empty.second = 0;
+
+			OP_NS_3.push_back(empty);
+		}
+		OP_NS_3[r - 1].first += DeadCounta;
+		OP_NS_3[r - 1].second += TotalE;
+	}
+}
 
 
 int main() {
@@ -588,6 +650,7 @@ int main() {
 						}
 						Fixed_Sender = -1;
 						Trg_Count = 1;
+						DeadCounta = 0;
 					}
 
 					rs = -1;
@@ -681,11 +744,9 @@ int main() {
 								Trg_Count++;
 							}
 
-
-						DeadCounta = 0;
-						for (int i = 0; i < N + BS; i++){
-							if (Dead[i]) DeadCounta++;
-						}
+						CountDeadNode();
+						if (monNS == 1 && CountR % step == 0)	//monitoring Network Status Mode
+							OutPutNS(CountR / step);
 
 						if (
 							//CountR > 100 &&
@@ -877,6 +938,31 @@ int main() {
 	} // End Repeat
 	outfile << endl;
 	outfile << Seed << endl;
+
+
+	if (monNS == 1){	//output monitored network status data
+		int index = 0;
+		while (OP_NS_0.size() > index){
+			fileNS << "0 " << (index + 1) * step << " " << (double)OP_NS_0[index].first / RUN << " " << OP_NS_0[index].second / RUN << endl;
+			index++;
+		}
+		index = 0;
+		while (OP_NS_1.size() > index){
+			fileNS << "1 " << (index + 1) * step << " " << (double)OP_NS_1[index].first / RUN << " " << OP_NS_1[index].second / RUN << endl;
+			index++;
+		}
+		index = 0;
+		while (OP_NS_2.size() > index){
+			fileNS << "2 " << (index + 1) * step << " " << (double)OP_NS_2[index].first / RUN << " " << OP_NS_2[index].second / RUN << endl;
+			index++;
+		}
+		index = 0;
+		while (OP_NS_3.size() > index){
+			fileNS << "1 " << (index + 1) * step << " " << (double)OP_NS_3[index].first / RUN << " " << OP_NS_3[index].second / RUN << endl;
+			index++;
+		}
+	}
+
 
 	return 0;
 
