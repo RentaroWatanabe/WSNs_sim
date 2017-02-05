@@ -954,17 +954,17 @@ int main() {
 		}
 		index = 0;
 		while (OP_NS_1.size() > index){
-            fileNS << "0 " << (index + 1) * step << " " << (double)get<0>(OP_NS_1[index]) / get<2>(OP_NS_1[index]) << " " << get<1>(OP_NS_1[index]) / get<2>(OP_NS_1[index]) << endl;
+            fileNS << "1 " << (index + 1) * step << " " << (double)get<0>(OP_NS_1[index]) / get<2>(OP_NS_1[index]) << " " << get<1>(OP_NS_1[index]) / get<2>(OP_NS_1[index]) << endl;
             index++;
         }
 		index = 0;
 		while (OP_NS_2.size() > index){
-            fileNS << "0 " << (index + 1) * step << " " << (double)get<0>(OP_NS_2[index]) / get<2>(OP_NS_2[index]) << " " << get<1>(OP_NS_2[index]) / get<2>(OP_NS_2[index]) << endl;
+            fileNS << "2 " << (index + 1) * step << " " << (double)get<0>(OP_NS_2[index]) / get<2>(OP_NS_2[index]) << " " << get<1>(OP_NS_2[index]) / get<2>(OP_NS_2[index]) << endl;
             index++;
         }
 		index = 0;
 		while (OP_NS_3.size() > index){
-            fileNS << "0 " << (index + 1) * step << " " << (double)get<0>(OP_NS_3[index]) / get<2>(OP_NS_3[index]) << " " << get<1>(OP_NS_3[index]) / get<2>(OP_NS_3[index]) << endl;
+            fileNS << "3 " << (index + 1) * step << " " << (double)get<0>(OP_NS_3[index]) / get<2>(OP_NS_3[index]) << " " << get<1>(OP_NS_3[index]) / get<2>(OP_NS_3[index]) << endl;
             index++;
         }
 	}
