@@ -98,6 +98,7 @@ ifstream infile("parameters.txt");
 // Open Output File
 ofstream outfile("result.txt");
 ofstream logfile("log.txt");
+ofstream fileNE("node_existence.txt");
 
 // Input Variable about using status
 // 1 means Use Straged Status;
